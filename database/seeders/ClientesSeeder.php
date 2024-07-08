@@ -17,12 +17,18 @@ class ClientesSeeder extends Seeder
             "name" => "Christian Gutierrez",
             "email" => "christian@gmail.com",
             "password" => bcrypt("1234567890"),
+            "telefono" => "78050589",
+            "direccion" => "Av Brasil , Calle Rivero #02",
+            "sexo" => "M",
         ])->assignRole("cliente");
 
         User::create([
             "name" => "Juan Carlos",
             "email" => "juancarlos@gmail.com",
             "password" => bcrypt("1234567890"),
+            "telefono" => "78050599",
+            "direccion" => "Av Brasil , Calle Rivero #05",
+            "sexo" => "M",
         ])->assignRole("cliente");
     }
 }
