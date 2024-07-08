@@ -1,29 +1,27 @@
-<div class="row padding-1 p-1">
-    <div class="col-md-12">
-        
-        <div class="form-group mb-2 mb20">
-            <label for="name" class="form-label">{{ __('Name') }}</label>
-            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $proveedor?->name) }}" id="name" placeholder="Name">
-            {!! $errors->first('name', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
-        <div class="form-group mb-2 mb20">
-            <label for="email" class="form-label">{{ __('Email') }}</label>
-            <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $proveedor?->email) }}" id="email" placeholder="Email">
-            {!! $errors->first('email', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
-        <div class="form-group mb-2 mb20">
-            <label for="direccion" class="form-label">{{ __('Direccion') }}</label>
-            <input type="text" name="direccion" class="form-control @error('direccion') is-invalid @enderror" value="{{ old('direccion', $proveedor?->direccion) }}" id="direccion" placeholder="Direccion">
-            {!! $errors->first('direccion', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
-        <div class="form-group mb-2 mb20">
-            <label for="telefono" class="form-label">{{ __('Telefono') }}</label>
-            <input type="text" name="telefono" class="form-control @error('telefono') is-invalid @enderror" value="{{ old('telefono', $proveedor?->telefono) }}" id="telefono" placeholder="Telefono">
-            {!! $errors->first('telefono', '<div class="invalid-feedback" role="alert"><strong>:message</strong></div>') !!}
-        </div>
-
+<div class="space-y-6">
+    
+    <div>
+        <x-input-label for="name" :value="__('Name')"/>
+        <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $proveedor?->name)" autocomplete="name" placeholder="Name"/>
+        <x-input-error class="mt-2" :messages="$errors->get('name')"/>
     </div>
-    <div class="col-md-12 mt20 mt-2">
-        <button type="submit" class="btn btn-primary">{{ __('Submit') }}</button>
+    <div>
+        <x-input-label for="email" :value="__('Email')"/>
+        <x-text-input id="email" name="email" type="text" class="mt-1 block w-full" :value="old('email', $proveedor?->email)" autocomplete="email" placeholder="Email"/>
+        <x-input-error class="mt-2" :messages="$errors->get('email')"/>
+    </div>
+    <div>
+        <x-input-label for="direccion" :value="__('Direccion')"/>
+        <x-text-input id="direccion" name="direccion" type="text" class="mt-1 block w-full" :value="old('direccion', $proveedor?->direccion)" autocomplete="direccion" placeholder="Direccion"/>
+        <x-input-error class="mt-2" :messages="$errors->get('direccion')"/>
+    </div>
+    <div>
+        <x-input-label for="telefono" :value="__('Telefono')"/>
+        <x-text-input id="telefono" name="telefono" type="text" class="mt-1 block w-full" :value="old('telefono', $proveedor?->telefono)" autocomplete="telefono" placeholder="Telefono"/>
+        <x-input-error class="mt-2" :messages="$errors->get('telefono')"/>
+    </div>
+
+    <div class="flex items-center gap-4">
+        <x-primary-button>Submit</x-primary-button>
     </div>
 </div>

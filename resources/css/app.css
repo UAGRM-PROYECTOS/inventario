@@ -5,3 +5,16 @@
 [x-cloak] {
     display: none;
 }
+
+/* Ejemplo de clases para el modo oscuro */
+.dark .bg-gray-800 {
+    background-color: #2d3748;
+}
+
+.dark .text-white {
+    color: #ffffff;
+}
+
+.dark .bg-gray-900 {
+    background-color: #1a202c;
+}

@@ -7,17 +7,21 @@ use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\ClienteRequest;
+use Illuminate\View\View;
 
 date_default_timezone_set('America/La_Paz');
-class ClientesController extends Controller
+class ClienteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): View
     {
         $clientes = User::role('cliente')->get();
-        return view('clientes.index', compact('clientes'));
+        return view('cliente.index', compact('clientes'));
        
     }
 
@@ -32,17 +36,22 @@ class ClientesController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        $cliente = new User();
+        return view('cliente.create', compact('cliente'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ClienteRequest $request): RedirectResponse
     {
 
+        User::create($request->validated())->assignRole('cliente');
+
+        return Redirect::route('clientes.index')
+            ->with('success', 'Cliente created successfully.');
     }
 
     public function storeApi(Request $request)
@@ -86,9 +95,11 @@ class ClientesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id): View
     {
-        //
+        $cliente = User::find($id);
+
+        return view('cliente.show', compact('cliente'));
     }
 
     public function showApi(string $id)
@@ -102,17 +113,22 @@ class ClientesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id): View
     {
-        //
+        $cliente = User::find($id);
+
+        return view('cliente.edit', compact('cliente'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ClienteRequest $request, User $cliente): RedirectResponse
     {
-        //
+        $cliente->update($request->validated());
+
+        return Redirect::route('clientes.index')
+            ->with('success', 'Cliente updated successfully');
     }
 
     public function updateApi(Request $request, string $id)
@@ -159,9 +175,12 @@ class ClientesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id): RedirectResponse
     {
-        //
+        User::find($id)->delete();
+
+        return Redirect::route('clientes.index')
+            ->with('success', 'Cliente deleted successfully');
     }
 
     public function destroyApi(string $id)
@@ -173,42 +192,5 @@ class ClientesController extends Controller
         }
         return response()->json(['message' => 'Coordenada no encontrada'], 404);*/
     }
-
-    public function cortarServicio(){
-        //
-    }
-
-    public function cortarServicioApi(string $id){
-       /* $coord = Coordenada::find($id);
-        if ($coord) {
-            $coord->cortarServicio();
-            return response()->json(['message' => 'Coordenada sin servicio'], 200);
-        }
-        return response()->json(['message' => 'Coordenada no encontrada'], 404);
-        */
-    }
-
-    // public function restaurarServicio(){
-    //
-    // }
-
-    public function sinCortar(){
-        //
-    }
-
-    public function sinCortarApi(){
-     /*   $coordenadas = Coordenada::where('cortado', false)->get();
-        return response()->json($coordenadas, 200);*/
-    }
-
-    public function cortadas(){
-        //
-    }
-
-    public function cortadasApi(){
-    /*    $coordenadas = Coordenada::where('cortado', true)->get();
-        return response()->json($coordenadas, 200);*/
-    }
-
 
 }
