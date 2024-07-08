@@ -16,15 +16,14 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        $clientes = User::all();
+        $clientes = User::role('cliente')->get();
         return view('clientes.index', compact('clientes'));
-       /* $clientes = User::where('tipoc', 1)->paginate(10); 
-        return view('clientes.index', compact('clientes'));*/
+       
     }
 
     public function indexApi()
     {
-        $clientes = User::all();
+        $clientes =User::role('cliente')->get();
         return response()->json($clientes, 200);
 
       

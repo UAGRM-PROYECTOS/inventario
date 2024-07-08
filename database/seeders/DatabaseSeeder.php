@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
             ClientesSeeder::class,
             AdminSeeder::class,
             CategoriasSeeder::class,
+            EstadosSeeder::class,
+            MetodoPagosSeeder::class,
+            ProveedorsSeeder::class
         ]);
     }
 }
