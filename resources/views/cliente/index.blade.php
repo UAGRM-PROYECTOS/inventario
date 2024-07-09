@@ -4,6 +4,10 @@
             {{ __('Lista de Clientes') }}
         </h2>
     </x-slot>
+    <footer class="flex justify-center m-2">
+    <!-- Simplicity is the essence of happiness. - Cedric Bledsoe -->
+    <p class="text-sm text-gray-600">Cantidad de visitas: {{ optional($visits)->cant }}</p>
+</footer>
     <div class="mt-3 max-w-2xl mx-auto lg:px-14">
                             <a type="button" href="{{ route('clientes.create') }}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add new</a>
                         </div>
@@ -65,5 +69,5 @@
     </div>
             </div>
         </div>
-    </div>
+    </div>  
 </x-app-layout>

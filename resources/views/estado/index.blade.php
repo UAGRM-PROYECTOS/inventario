@@ -1,10 +1,9 @@
-@extends('layouts.app')
-
-@section('template_title')
-    Estados
-@endsection
-
-@section('content')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Estados') }}
+        </h2>
+    </x-slot>
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
@@ -70,4 +69,4 @@
             </div>
         </div>
     </div>
-@endsection
+    </x-app-layout>

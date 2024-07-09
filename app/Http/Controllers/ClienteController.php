@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
@@ -11,17 +12,25 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\ClienteRequest;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+use App\Http\Middleware;
 
 date_default_timezone_set('America/La_Paz');
 class ClienteController extends Controller
-{
+{   
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request): View
+    public function index(): View
     {
+        $visits = Visit::where(['page_name' => 'clientes.index'])->first();
+
         $clientes = User::role('cliente')->get();
-        return view('cliente.index', compact('clientes'));
+        return view('cliente.index', [
+            'visits' => $visits,
+            'clientes'=>$clientes
+        ]);
        
     }
 
@@ -54,43 +63,6 @@ class ClienteController extends Controller
             ->with('success', 'Cliente created successfully.');
     }
 
-    public function storeApi(Request $request)
-    {
-      /*  $validator = Validator::make($request->all(), [
-            'latitud' => 'required|numeric',
-            'longitud' => 'required|numeric',
-            'nombre_beneficiario' => 'required|max:70',
-            'codigo_unidad_vecinal' => 'required|numeric',
-            'cantidad_facturas' => 'required|numeric',
-            'UMZ' => 'required',
-            // 'tipo_de_red' => 'required',
-            'codigo_factura' => 'required',
-            'importe_factura' => 'required|numeric',
-        ],[
-            'latitud.required' => 'La latitud es requerida',
-            'latitud.numeric' => 'La latitud debe ser un número',
-            'longitud.required' => 'La longitud es requerida',
-            'longitud.numeric' => 'La longitud debe ser un número',
-            'nombre_beneficiario.required' => 'El nombre del beneficiario es requerido',
-            'nombre_beneficiario.max' => 'El nombre del beneficiario no debe exceder los 70 caracteres',
-            'codigo_unidad_vecinal.required' => 'El código de la unidad vecinal es requerido',
-            'codigo_unidad_vecinal.numeric' => 'El código de la unidad vecinal debe ser un número',
-            'cantidad_facturas.required' => 'La cantidad de facturas es requerida',
-            'cantidad_facturas.numeric' => 'La cantidad de facturas debe ser un número',
-            'UMZ.required' => 'La UMZ es requerida',
-            // 'tipo_de_red.required' => 'El tipo de red es requerido',
-            'codigo_factura.required' => 'El código de la factura es requerido',
-            'importe_factura.required' => 'El importe de la factura es requerido',
-            'importe_factura.numeric' => 'El importe de la factura debe ser un número',
-        ]);
-
-        if ($validator->fails()) return response()->json($validator->errors(), 400);
-
-        $coord = Coordenada::create($request->all());
-        if ($coord) return response()->json(['message' => 'Coordenada creada correctamente'], 201);
-        return response()->json(['message' => 'Error al crear la coordenada'], 500);
-        */
-    }
 
     /**
      * Display the specified resource.

@@ -1,10 +1,9 @@
-@extends('layouts.app')
-
-@section('template_title')
-    {{ __('Create') }} Categoria
-@endsection
-
-@section('content')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Categorias') }}
+        </h2>
+    </x-slot>
     <section class="content container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -25,4 +24,4 @@
             </div>
         </div>
     </section>
-@endsection
+    </x-app-layout>
