@@ -55,7 +55,7 @@
             </div>
         @empty
 
-        <p class="bg-red-700 rounded-lg p-2 text-white">No se encuentran pizzas con esos términos</p>
+        <p class="bg-red-700 rounded-lg p-2 text-white">No se encuentran productos con esos términos</p>
 
 
     </div>
