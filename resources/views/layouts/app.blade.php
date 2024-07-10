@@ -17,7 +17,6 @@
 <body class="font-sans antialiased" :class="{ 'dark': isDarkMode }">
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @include('layouts.navigation')
-
         <!-- Page Heading -->
         @isset($header)
             <header class="bg-white shadow dark:bg-gray-800">
@@ -26,7 +25,7 @@
                 </div>
             </header>
         @endisset
-
+        <!--@include('layouts.nav-sidebar')-->
         <!-- Page Content -->
         <main>
             {{ $slot }}

@@ -59,6 +59,12 @@
 </script>
 <!-- end select-->
 
+            <div class="mt-5">
+                <x-input-label for="foto" value="{{ __('Foto del producto') }}" />
+                <x-text-input id="imagen" name="imagen" type="file" accept="image/*" class="mt-1 block w-full" />
+            </div>
+
+
     <div class="flex items-center gap-4">
         <x-primary-button>Submit</x-primary-button>
     </div>

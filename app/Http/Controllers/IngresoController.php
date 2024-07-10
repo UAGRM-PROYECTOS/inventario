@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Ingreso;
 use App\Models\Proveedor;
+use App\Models\DetalleIngreso;
+use App\Models\Producto;
 use App\Models\MetodoValuacion;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,8 +54,8 @@ class IngresoController extends Controller
     public function show($id): View
     {
         $ingreso = Ingreso::find($id);
-
-        return view('ingreso.show', compact('ingreso'));
+        $detalleIngresos = DetalleIngreso::paginate();
+        return view('ingreso.show', compact('ingreso','detalleIngresos'));
     }
 
     /**

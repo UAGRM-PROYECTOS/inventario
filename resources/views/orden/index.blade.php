@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Ingresos') }}
+            {{ __('Ordens') }}
         </h2>
     </x-slot>
 
@@ -11,11 +11,11 @@
                 <div class="w-full">
                     <div class="sm:flex sm:items-center">
                         <div class="sm:flex-auto">
-                            <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Ingresos') }}</h1>
-                            <p class="mt-2 text-sm text-gray-700">A list of all the {{ __('Ingresos') }}.</p>
+                            <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Ordens') }}</h1>
+                            <p class="mt-2 text-sm text-gray-700">A list of all the {{ __('Ordens') }}.</p>
                         </div>
                         <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                            <a type="button" href="{{ route('ingresos.create') }}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add new</a>
+                            <a type="button" href="{{ route('ordens.create') }}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add new</a>
                         </div>
                     </div>
 
@@ -27,33 +27,31 @@
                                     <tr>
                                         <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">No</th>
                                         
-									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Proveedor</th>
-									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Metodovaluacion</th>
+									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Cliente Id</th>
+									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Estado Id</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Total</th>
-									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Fecha Ingreso</th>
+									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Fecha</th>
 
                                         <th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"></th>
                                     </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        
-                                    @foreach ($ingresos as $ingreso)
+                                    @foreach ($ordens as $orden)
                                         <tr class="even:bg-gray-50">
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900">{{ ++$i }}</td>
                                             
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->proveedor->name}}</td>
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->metodovaluacion->nombre }}</td>
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->total }}</td>
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->fecha_ingreso }}</td>
+										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $orden->cliente_id }}</td>
+										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $orden->estado_id }}</td>
+										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $orden->total }}</td>
+										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $orden->fecha }}</td>
 
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-                                                <form action="{{ route('ingresos.destroy', $ingreso->id) }}" method="POST">
-                                                    <a href="{{ route('ingresos.show', $ingreso->id) }}" class="text-gray-600 font-bold hover:text-gray-900 mr-2">{{ __('Show') }}</a>
-                                                    <a href="{{ route('ingresos.edit', $ingreso->id) }}" class="text-indigo-600 font-bold hover:text-indigo-900  mr-2">{{ __('Edit') }}</a>
-                                                    <a href="{{ route('ingresos.create') }}" class="text-indigo-600 font-bold hover:text-green-900 mr-2">{{ __('Add-Producto') }}</a>
+                                                <form action="{{ route('ordens.destroy', $orden->id) }}" method="POST">
+                                                    <a href="{{ route('ordens.show', $orden->id) }}" class="text-gray-600 font-bold hover:text-gray-900 mr-2">{{ __('Show') }}</a>
+                                                    <a href="{{ route('ordens.edit', $orden->id) }}" class="text-indigo-600 font-bold hover:text-indigo-900  mr-2">{{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <a href="{{ route('ingresos.destroy', $ingreso->id) }}" class="text-red-600 font-bold hover:text-red-900" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;">{{ __('Delete') }}</a>
+                                                    <a href="{{ route('ordens.destroy', $orden->id) }}" class="text-red-600 font-bold hover:text-red-900" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;">{{ __('Delete') }}</a>
                                                 </form>
                                             </td>
                                         </tr>
@@ -62,7 +60,7 @@
                                 </table>
 
                                 <div class="mt-4 px-4">
-                                    {!! $ingresos->withQueryString()->links() !!}
+                                    {!! $ordens->withQueryString()->links() !!}
                                 </div>
                             </div>
                         </div>

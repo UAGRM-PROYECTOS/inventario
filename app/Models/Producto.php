@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $cod_barra
  * @property $nombre
  * @property $descripcion
+ * @property $imagen
  * @property $precio
  * @property $costo_promedio
  * @property $stock
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $categoria_id
  * @property $created_at
  * @property $updated_at
+
  *
  * @property Categoria $categoria
  * @property DetalleIngreso[] $detalleIngresos
@@ -31,12 +33,13 @@ class Producto extends Model
     
     protected $perPage = 20;
 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = ['cod_barra', 'nombre', 'descripcion', 'precio', 'costo_promedio', 'stock', 'stock_min', 'categoria_id'];
+    protected $fillable = ['cod_barra', 'nombre', 'descripcion','imagen', 'precio', 'costo_promedio', 'stock', 'stock_min', 'categoria_id'];
 
 
     /**
