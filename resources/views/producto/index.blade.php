@@ -34,7 +34,7 @@
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Costo Promedio</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Stock</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Stock Min</th>
-									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Categoria Id</th>
+									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Categoria</th>
 
                                         <th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"></th>
                                     </tr>
@@ -51,7 +51,7 @@
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->costo_promedio }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->stock }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->stock_min }}</td>
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->categoria_id }}</td>
+										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->categoria->nombre }}</td>
 
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                                                 <form action="{{ route('productos.destroy', $producto->id) }}" method="POST">

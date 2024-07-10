@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\Categoria;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductoRequest;
@@ -28,8 +29,8 @@ class ProductoController extends Controller
     public function create(): View
     {
         $producto = new Producto();
-
-        return view('producto.create', compact('producto'));
+        $categorias = Categoria::all(); 
+        return view('producto.create', compact('producto', 'categorias'));
     }
 
     /**
@@ -59,8 +60,8 @@ class ProductoController extends Controller
     public function edit($id): View
     {
         $producto = Producto::find($id);
-
-        return view('producto.edit', compact('producto'));
+        $categorias = Categoria::all(); 
+        return view('producto.edit', compact('producto', 'categorias'));
     }
 
     /**

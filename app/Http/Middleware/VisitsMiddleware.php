@@ -3,10 +3,10 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\Models\Visit;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Route;
+use App\Models\Visit;
 
 class VisitsMiddleware
 {

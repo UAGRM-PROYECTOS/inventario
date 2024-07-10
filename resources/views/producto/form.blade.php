@@ -17,29 +17,47 @@
     </div>
     <div>
         <x-input-label for="precio" :value="__('Precio')"/>
-        <x-text-input id="precio" name="precio" type="text" class="mt-1 block w-full" :value="old('precio', $producto?->precio)" autocomplete="precio" placeholder="Precio"/>
+        <x-text-input id="precio" name="precio" type="text" class="mt-1 block w-full" :value="old('precio', $producto?->precio)" autocomplete="precio" placeholder="Por default 00.00"/>
         <x-input-error class="mt-2" :messages="$errors->get('precio')"/>
     </div>
+    <!-- 
     <div>
         <x-input-label for="costo_promedio" :value="__('Costo Promedio')"/>
-        <x-text-input id="costo_promedio" name="costo_promedio" type="text" class="mt-1 block w-full" :value="old('costo_promedio', $producto?->costo_promedio)" autocomplete="costo_promedio" placeholder="Costo Promedio"/>
+        <x-text-input id="costo_promedio" name="costo_promedio" type="text" class="mt-1 block w-full" :value="old('costo_promedio', $producto?->costo_promedio)" autocomplete="costo_promedio" placeholder="Por default 00.00"/>
         <x-input-error class="mt-2" :messages="$errors->get('costo_promedio')"/>
     </div>
     <div>
         <x-input-label for="stock" :value="__('Stock')"/>
-        <x-text-input id="stock" name="stock" type="text" class="mt-1 block w-full" :value="old('stock', $producto?->stock)" autocomplete="stock" placeholder="Stock"/>
+        <x-text-input id="stock" name="stock" type="text" class="mt-1 block w-full" :value="old('stock', $producto?->stock)" autocomplete="stock" placeholder="Por default 0"/>
         <x-input-error class="mt-2" :messages="$errors->get('stock')"/>
     </div>
     <div>
         <x-input-label for="stock_min" :value="__('Stock Min')"/>
-        <x-text-input id="stock_min" name="stock_min" type="text" class="mt-1 block w-full" :value="old('stock_min', $producto?->stock_min)" autocomplete="stock_min" placeholder="Stock Min"/>
+        <x-text-input id="stock_min" name="stock_min" type="text" class="mt-1 block w-full" :value="old('stock_min', $producto?->stock_min)" autocomplete="stock_min" placeholder="Por default 5"/>
         <x-input-error class="mt-2" :messages="$errors->get('stock_min')"/>
     </div>
-    <div>
+   <div>
         <x-input-label for="categoria_id" :value="__('Categoria Id')"/>
         <x-text-input id="categoria_id" name="categoria_id" type="text" class="mt-1 block w-full" :value="old('categoria_id', $producto?->categoria_id)" autocomplete="categoria_id" placeholder="Categoria Id"/>
         <x-input-error class="mt-2" :messages="$errors->get('categoria_id')"/>
     </div>
+    -->
+    <input type="hidden" name="categoria_id" id="categoria_id_hidden" :value="old('categoria_id', $producto ? $producto->categoria_id : '')">
+
+    <!--mod form para add select mode -->
+    <select class="block mt-1 w-full rounded-lg" wire:model="categoria_id" id="categoria_id" onchange="updateHiddenInput()">
+    <option hidden selected>- SELECCIONE -</option>
+    @foreach ($categorias as $categoria)
+        <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
+    @endforeach
+</select>
+<script>
+    function updateHiddenInput() {
+        var selectedCategoriaId = document.getElementById('categoria_id').value;
+        document.getElementById('categoria_id_hidden').value = selectedCategoriaId;
+    }
+</script>
+<!-- end select-->
 
     <div class="flex items-center gap-4">
         <x-primary-button>Submit</x-primary-button>
