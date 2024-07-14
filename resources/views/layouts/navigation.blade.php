@@ -128,15 +128,15 @@
                                 :active="request()->routeIs('producto.catalogo')">
                                 {{ __('Mi Catalogo') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('ordens.indexOrdens')" :active="request()->routeIs('ordens.indexOrdens')">
+                            <x-dropdown-link :href="route('ordens.index')" :active="request()->routeIs('ordens.index')">
                                 {{ __('Ordenes') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('ordens.indexEntregas')"
-                                :active="request()->routeIs('ordens.indexEntregas')">
+                            <x-dropdown-link :href="route('entregas.index')"
+                                :active="request()->routeIs('entregas.index')">
                                 {{ __('Entregas') }}
                             </x-dropdown-link>
-                            <x-dropdown-link :href="route('ordens.indexVentas')"
-                                :active="request()->routeIs('ordens.indexVentas')">
+                            <x-dropdown-link :href="route('ventas.index')"
+                                :active="request()->routeIs('ventas.index')">
                                 {{ __('Ventas') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('estados.index')"

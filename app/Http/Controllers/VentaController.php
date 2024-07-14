@@ -15,16 +15,16 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-class OrdenController extends Controller
+class VentaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request): View
     {
-        $ordens = Orden::where('estado_id', 5)->paginate(10);
+        $ordens = Orden::where('estado_id', 2)->paginate(10);
 
-        return view('orden.index', compact('ordens'))
+        return view('venta.index', compact('ordens'))
             ->with('i', ($request->input('page', 1) - 1) * $ordens->perPage());
     }
 
@@ -35,7 +35,7 @@ class OrdenController extends Controller
     {
         $orden = new Orden();
 
-        return view('orden.create', compact('orden'));
+        return view('venta.create', compact('orden'));
     }
 
     /**
@@ -52,7 +52,7 @@ class OrdenController extends Controller
             'fecha' => Carbon::now(), // Current date and time
             
         ]);
-        return Redirect::route('ordens.index')
+        return Redirect::route('ventas.index')
             ->with('success', 'Orden created successfully.');
     }
 
@@ -63,7 +63,7 @@ class OrdenController extends Controller
     {
         $orden = Orden::find($id);
         $detalleOrdens  = DetalleOrden::where('orden_id', $id)->paginate(10);
-        return view('orden.show', compact('orden','detalleOrdens'));
+        return view('venta.show', compact('orden','detalleOrdens'));
     }
     public function ordenPedido($id): View
     {
@@ -81,7 +81,7 @@ class OrdenController extends Controller
             $pedidoRealizado='Pedido Realizao con exito';
     
             // Devolver la vista de la orden con los detalles y un mensaje indicando que ha sido pedido
-            return view('orden.show', compact('orden', 'detalleOrdens', 'pedidoRealizado'));
+            return view('venta.show', compact('orden', 'detalleOrdens', 'pedidoRealizado'));
     
         } catch (ModelNotFoundException $e) {
             // Manejar el caso donde no se encuentra la orden
@@ -126,7 +126,7 @@ class OrdenController extends Controller
     {
         $orden = Orden::find($id);
 
-        return view('orden.edit', compact('orden'));
+        return view('venta.edit', compact('orden'));
     }
 
     /**
@@ -136,7 +136,7 @@ class OrdenController extends Controller
     {
         $orden->update($request->validated());
 
-        return Redirect::route('ordens.index')
+        return Redirect::route('ventas.index')
             ->with('success', 'Orden updated successfully');
     }
 
@@ -144,7 +144,7 @@ class OrdenController extends Controller
     {
         Orden::find($id)->delete();
 
-        return Redirect::route('ordens.index')
+        return Redirect::route('ventas.index')
             ->with('success', 'Orden deleted successfully');
     }
 }
