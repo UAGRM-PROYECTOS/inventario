@@ -64,8 +64,8 @@
                                         <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">No</th>
                                         
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Producto</th>
-									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Ingreso ID</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Cantidad</th>
+                                    <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">UNIDAD</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Costo Unitario</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Costo Total</th>
 
@@ -81,15 +81,14 @@
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900">{{ $valor++ }}</td>
 
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $detalleIngreso->producto->nombre }}</td>
-
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $detalleIngreso->ingreso_id }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $detalleIngreso->cantidad }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $detalleIngreso->producto->unidad }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $detalleIngreso->costo_unitario }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $detalleIngreso->costo_total }}</td>
 
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                                                 <form action="{{ route('detalle-ingresos.destroy', $detalleIngreso->id) }}" method="POST">
-                                                    <a href="{{ route('detalle-ingresos.show', $detalleIngreso->id) }}" class="text-gray-600 font-bold hover:text-gray-900 mr-2">{{ __('Show') }}</a>
+                                                    <!--<a href="{{ route('detalle-ingresos.show', $detalleIngreso->id) }}" class="text-gray-600 font-bold hover:text-gray-900 mr-2">{{ __('Show') }}</a>-->
                                                     <a href="{{ route('detalle-ingresos.edit', $detalleIngreso->id) }}" class="text-indigo-600 font-bold hover:text-indigo-900  mr-2">{{ __('Edit') }}</a>
                                                     @csrf
                                                     @method('DELETE')

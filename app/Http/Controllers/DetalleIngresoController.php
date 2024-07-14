@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\DetalleIngresoRequest;
 use App\Models\Producto;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
@@ -57,6 +58,8 @@ class DetalleIngresoController extends Controller
     });
 
 
+    
+
     return Redirect::route('ingresos.show', $ingreso->id)
         ->with('success', 'DetalleIngreso created successfully.');
     }
@@ -95,6 +98,7 @@ class DetalleIngresoController extends Controller
         $ingreso = null;
 
     DB::transaction(function () use ($request, $detalleIngreso, &$ingreso) {
+        try {
         // Encontrar el ingreso asociado antes de la actualización
         $ingreso = Ingreso::findOrFail($detalleIngreso->ingreso_id);
 
@@ -109,6 +113,14 @@ class DetalleIngresoController extends Controller
 
         // Guardar el ingreso actualizado
         $ingreso->save();
+    
+    } catch (ModelNotFoundException $e) {
+        // Manejar excepción si no se encuentra el detalle de orden o la orden
+        return Redirect::back()->with('error', 'No se pudo encontrar el detalle de orden.');
+    } catch (\Exception $e) {
+        // Manejar otras excepciones
+        return Redirect::back()->with('error', $e->getMessage());
+    }
     });
 
         return Redirect::route('ingresos.show', $ingreso->id)
@@ -119,18 +131,29 @@ class DetalleIngresoController extends Controller
     {
         $ingreso = null; 
         DB::transaction(function () use ($id, &$ingreso) {
+            try {
             // Encontrar el detalle de ingreso que se va a eliminar
             $detalleIngreso = DetalleIngreso::findOrFail($id);
     
             // Encontrar el ingreso asociado
             $ingreso = Ingreso::findOrFail($detalleIngreso->ingreso_id);
-    
+    // Verificar si el total de la orden es menor que el precio total del detalle
+         if ($ingreso->total < $detalleIngreso->costo_total) {
+        throw new \Exception('El total no puede ser menor que cero.');
+        }
             // Actualizar el total del ingreso restando el costo total del detalle de ingreso
             $ingreso->total -= $detalleIngreso->costo_total;
             $ingreso->save();
     
             // Eliminar el detalle de ingreso
             $detalleIngreso->delete();
+        } catch (ModelNotFoundException $e) {
+            // Manejar excepción si no se encuentra el detalle de orden o la orden
+            return Redirect::back()->with('error', 'No se pudo encontrar el detalle de orden.');
+        } catch (\Exception $e) {
+            // Manejar otras excepciones
+            return Redirect::back()->with('error', $e->getMessage());
+        }
         });
 
         return Redirect::route('ingresos.show', $ingreso->id)

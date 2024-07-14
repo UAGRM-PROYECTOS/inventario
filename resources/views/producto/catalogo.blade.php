@@ -23,16 +23,16 @@
 
                     <div class="m-3 bg-grey-800 hover:bg-white p-5 inline-block rounded-lg" >
                         <div class="flex justify-center">
-                        <form method="POST" action="{{ route('detalle-ordens.create') }}" role="form"
+                        <form action="{{ route('ordens.addDetalleOrden') }}" role="form"
                           enctype="multipart/form-data" id="store{{ $loop->index }}">
                         @csrf
                         <input type="number" id="cantidad" name="cantidad" min="1" max="1000" value="1">
-
+                        <input type="hidden" name="orden" id="orden" value="{{ $orden->id }}">
                         <input type="hidden" name="precio" id="precio" value="{{ $producto->precio }}">
                         <input type="hidden" name="idProducto" id="idProducto" value="{{ $producto->id }}">
                         @auth
-                            @if ($pedidos)
-                                <input type="hidden" name="idCarrito" id="idCarrito" value="{{ $pedidos->id }}">
+                            @if ($orden)
+                                <input type="hidden" name="idCarrito" id="idCarrito" value="{{ $orden->id }}">
                             @else
                                 <input type="hidden" name="idCarrito" id="idCarrito" value="default value">
                             @endif
@@ -43,7 +43,7 @@
                                 form="store{{ $loop->index }}">
                                 <div class="flex justify-center">
                             <p class="text-white">+</p>
-                            <x-car></x-car>
+                           
                         </div>
                         </button>
                     </div>

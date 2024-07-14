@@ -79,4 +79,8 @@ class User extends Authenticatable
         ];
     }
 
+    public function currentOrder(){
+        
+    }
+
 }

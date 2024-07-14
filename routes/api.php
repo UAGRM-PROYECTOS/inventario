@@ -3,13 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthApiController;
-use App\Http\Controllers\CoordenadaController;
+use App\Http\Controllers\PagoController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-
+/*
 Route::post('/coordenadas', [CoordenadaController::class, 'storeApi'])->middleware('auth:sanctum');
 Route::get('/coordenadas', [CoordenadaController::class, 'indexApi'])->middleware('auth:sanctum');
 Route::get('/coordenadas/{id}/show', [CoordenadaController::class, 'showApi'])->middleware('auth:sanctum');
@@ -26,3 +26,6 @@ Route::get('/coordenadas/cortadas', [CoordenadaController::class, 'cortadasApi']
 Route::post('/login', [AuthApiController::class, 'login']);
 Route::post('/register', [AuthApiController::class, 'register']);
 Route::post('/logout', [AuthApiController::class, 'logout'])->middleware('auth:sanctum');
+
+*/
+Route::get('/consultarlo', [PagoController::class, 'AccessPagoFacilv2']);

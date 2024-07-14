@@ -7,7 +7,7 @@
     <select class="block mt-1 w-full rounded-lg" id="producto_id" onchange="updateHiddenInput()">
         <option hidden selected>- SELECCIONE -</option>
         @foreach ($productos as $producto)
-            <option value="{{$producto->id}}" data-nombre="{{$producto->nombre}}" data-precio="{{$producto->precio}}">{{$producto->nombre}}</option>
+            <option value="{{$producto->id}}" data-nombre="{{$producto->nombre}}" data-unidad="{{$producto->unidad}}" data-precio="{{$producto->precio}}">{{$producto->nombre}}</option>
         @endforeach
     </select>
 
@@ -19,9 +19,11 @@
             // Obtener nombre y precio del producto seleccionado y actualizar los campos correspondientes
             var selectedOption = document.getElementById('producto_id').options[document.getElementById('producto_id').selectedIndex];
             var nombreProducto = selectedOption.getAttribute('data-nombre');
+            var unidadProducto = selectedOption.getAttribute('data-unidad');
             var precioProducto = selectedOption.getAttribute('data-precio');
 
             document.getElementById('nombre_producto').innerText = nombreProducto;
+            document.getElementById('unidad_producto').innerText = unidadProducto;
             document.getElementById('costo_unitario').value = precioProducto;
             calcularCostoTotal();
         }
@@ -38,12 +40,14 @@
     <div>
         <x-input-label for="nombre_producto" :value="__('Nombre del Producto')"/>
         <span id="nombre_producto"></span>
+        <x-input-label for="unidad_producto" :value="__('Unidad')"/>
+        <span id="unidad_producto"></span>
     </div>
 
     <!-- Input para ingresar el ID del ingreso -->
     <div>
-        <x-input-label for="ingreso_id" :value="__('Ingreso Id')"/>
-        <x-text-input id="ingreso_id" name="ingreso_id" type="text" class="mt-1 block w-full" :value="old('ingreso_id', $detalleIngreso ? $detalleIngreso->ingreso_id : '')" autocomplete="ingreso_id" placeholder="Ingreso Id"/>
+        <x-input-label for="ingreso_id" :value="__()"/>
+        <x-text-input id="ingreso_id" name="ingreso_id" type="hidden" class="mt-1 block w-full" :value="old('ingreso_id', $detalleIngreso ? $detalleIngreso->ingreso_id : '')" autocomplete="ingreso_id" placeholder="Ingreso Id"/>
         <x-input-error class="mt-2" :messages="$errors->get('ingreso_id')"/>
     </div>
 

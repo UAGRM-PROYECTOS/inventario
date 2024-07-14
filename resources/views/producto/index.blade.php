@@ -30,6 +30,7 @@
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Cod Barra</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Nombre</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Descripcion</th>
+                                    <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Unidad</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Precio</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Costo Promedio</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Stock</th>
@@ -47,6 +48,7 @@
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->cod_barra }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->nombre }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->descripcion }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->unidad }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->precio }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->costo_promedio }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $producto->stock }}</td>

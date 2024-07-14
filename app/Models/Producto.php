@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property $cod_barra
  * @property $nombre
  * @property $descripcion
+ * @property $unidad
  * @property $imagen
  * @property $precio
  * @property $costo_promedio
@@ -39,7 +40,7 @@ class Producto extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['cod_barra', 'nombre', 'descripcion','imagen', 'precio', 'costo_promedio', 'stock', 'stock_min', 'categoria_id'];
+    protected $fillable = ['cod_barra', 'nombre', 'descripcion','unidad','imagen', 'precio', 'costo_promedio', 'stock', 'stock_min', 'categoria_id'];
 
 
     /**

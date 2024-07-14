@@ -54,7 +54,7 @@ class IngresoController extends Controller
     public function show($id): View
     {
         $ingreso = Ingreso::find($id);
-        $detalleIngresos = DetalleIngreso::paginate();
+        $detalleIngresos = DetalleIngreso::where('ingreso_id', $id)->paginate(10);
         return view('ingreso.show', compact('ingreso','detalleIngresos'));
     }
 

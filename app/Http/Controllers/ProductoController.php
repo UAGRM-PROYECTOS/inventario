@@ -12,6 +12,7 @@ use App\Http\Requests\ProductoRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Auth;
 
 class ProductoController extends Controller
 {
@@ -31,9 +32,14 @@ class ProductoController extends Controller
         $categorias = Categoria::get();
         if (auth()->user()) {
             $pedidos = Orden::where('cliente_id', auth()->user()->id);
-            $pedidos = $pedidos->where('estado_id', 1)->first();
+            $pedidos = $pedidos->where('estado_id', 8)->first();
             $detallesPedidos = DetalleOrden::get();
-            return view('producto.catalogo', compact('productos', 'categorias', 'pedidos', 'detallesPedidos'));
+
+            $orden = Orden::where('cliente_id', Auth::user()->id)
+            ->where('estado_id', 9) // Assuming '1' is the ID for active orders
+            ->latest('fecha') // Assuming 'fecha' is your date field
+            ->first();
+            return view('producto.catalogo', compact('productos', 'categorias', 'orden', 'detallesPedidos'));
         }
         return view('producto.catalogo', compact('productos', 'categorias'));
     }

@@ -26,11 +26,9 @@
                                     <thead>
                                     <tr>
                                         <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">No</th>
-                                        
-									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Proveedor</th>
-									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Metodovaluacion</th>
+                                        <th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Fecha Ingreso</th>
 									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Total</th>
-									<th scope="col" class="py-3 pl-4 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">Fecha Ingreso</th>
+
 
                                         <th scope="col" class="px-3 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"></th>
                                     </tr>
@@ -41,16 +39,15 @@
                                         <tr class="even:bg-gray-50">
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-semibold text-gray-900">{{ ++$i }}</td>
                                             
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->proveedor->name}}</td>
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->metodovaluacion->nombre }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->fecha_ingreso }}</td>
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->total }}</td>
-										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $ingreso->fecha_ingreso }}</td>
+										
 
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
                                                 <form action="{{ route('ingresos.destroy', $ingreso->id) }}" method="POST">
                                                     <a href="{{ route('ingresos.show', $ingreso->id) }}" class="text-gray-600 font-bold hover:text-gray-900 mr-2">{{ __('Show') }}</a>
                                                     <a href="{{ route('ingresos.edit', $ingreso->id) }}" class="text-indigo-600 font-bold hover:text-indigo-900  mr-2">{{ __('Edit') }}</a>
-                                                    <a href="{{ route('ingresos.create') }}" class="text-indigo-600 font-bold hover:text-green-900 mr-2">{{ __('Add-Producto') }}</a>
+                                                  
                                                     @csrf
                                                     @method('DELETE')
                                                     <a href="{{ route('ingresos.destroy', $ingreso->id) }}" class="text-red-600 font-bold hover:text-red-900" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;">{{ __('Delete') }}</a>

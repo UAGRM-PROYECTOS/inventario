@@ -75,5 +75,18 @@ class Orden extends Model
     {
         return $this->hasMany(\App\Models\Salida::class, 'id', 'orden_id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Orden::class, 'cliente_id', 'id');
+    }
+
+    /**
+     * Get the current active order for the user.
+     */
+    public function currentOrder()
+    {
+        return $this->orders()->where('estado_id', 8)->latest()->first();
+    }
     
 }

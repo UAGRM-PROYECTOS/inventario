@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('cod_barra');
             $table->string('nombre');
             $table->string('descripcion');
+            $table->string('unidad');
             $table->string('imagen')->nullable();
             $table->double('precio')->default(00.00);
             $table->double('costo_promedio')->default(00.00);

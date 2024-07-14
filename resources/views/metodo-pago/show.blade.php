@@ -1,33 +1,42 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ $metodoPago->name ?? __('Show') . " " . __('Metodo Pago') }}
+        </h2>
+    </x-slot>
 
-@section('template_title')
-    {{ $metodoPago->name ?? __('Show') . " " . __('Metodo Pago') }}
-@endsection
-
-@section('content')
-    <section class="content container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
-                        <div class="float-left">
-                            <span class="card-title">{{ __('Show') }} Metodo Pago</span>
+    <div class="py-12">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="w-full">
+                    <div class="sm:flex sm:items-center">
+                        <div class="sm:flex-auto">
+                            <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Show') }} Metodo Pago</h1>
+                            <p class="mt-2 text-sm text-gray-700">Details of {{ __('Metodo Pago') }}.</p>
                         </div>
-                        <div class="float-right">
-                            <a class="btn btn-primary btn-sm" href="{{ route('metodo-pagos.index') }}"> {{ __('Back') }}</a>
+                        <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                            <a type="button" href="{{ route('metodo-pagos.index') }}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Back</a>
                         </div>
                     </div>
 
-                    <div class="card-body bg-white">
-                        
-                                <div class="form-group mb-2 mb20">
-                                    <strong>Nombre:</strong>
-                                    {{ $metodoPago->nombre }}
+                    <div class="flow-root">
+                        <div class="mt-8 overflow-x-auto">
+                            <div class="inline-block min-w-full py-2 align-middle">
+                                <div class="mt-6 border-t border-gray-100">
+                                    <dl class="divide-y divide-gray-100">
+                                        
+                                <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt class="text-sm font-medium leading-6 text-gray-900">Nombre</dt>
+                                    <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{{ $metodoPago->nombre }}</dd>
                                 </div>
 
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-@endsection
+    </div>
+</x-app-layout>

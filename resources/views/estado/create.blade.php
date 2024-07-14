@@ -1,27 +1,37 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Estados') }}
+            {{ __('Create') }} Estado
         </h2>
     </x-slot>
-    <section class="content container-fluid">
-        <div class="row">
-            <div class="col-md-12">
 
-                <div class="card card-default">
-                    <div class="card-header">
-                        <span class="card-title">{{ __('Create') }} Estado</span>
+    <div class="py-12">
+        <div class="max-w-full mx-auto sm:px-6 lg:px-8 space-y-6">
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                <div class="w-full">
+                    <div class="sm:flex sm:items-center">
+                        <div class="sm:flex-auto">
+                            <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Create') }} Estado</h1>
+                            <p class="mt-2 text-sm text-gray-700">Add a new {{ __('Estado') }}.</p>
+                        </div>
+                        <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+                            <a type="button" href="{{ route('estados.index') }}" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Back</a>
+                        </div>
                     </div>
-                    <div class="card-body bg-white">
-                        <form method="POST" action="{{ route('estados.store') }}"  role="form" enctype="multipart/form-data">
-                            @csrf
 
-                            @include('estado.form')
+                    <div class="flow-root">
+                        <div class="mt-8 overflow-x-auto">
+                            <div class="max-w-xl py-2 align-middle">
+                                <form method="POST" action="{{ route('estados.store') }}"  role="form" enctype="multipart/form-data">
+                                    @csrf
 
-                        </form>
+                                    @include('estado.form')
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    </x-app-layout>
+    </div>
+</x-app-layout>
