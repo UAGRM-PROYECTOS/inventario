@@ -20,6 +20,14 @@ class OrdenController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function index(Request $request): View
+    {
+        $ordens = Orden::paginate();
+
+        return view('orden.index', compact('ordens'))
+            ->with('i', ($request->input('page', 1) - 1) * $ordens->perPage());
+    }
+
     public function indexOrdens(Request $request): View
     {
         $ordens = Orden::where('estado_id', 5)->paginate(10);

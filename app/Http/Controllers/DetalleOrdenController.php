@@ -24,10 +24,10 @@ class DetalleOrdenController extends Controller
         $userId = Auth::id();
 
         // Retrieve the last order of the authenticated user
-        $lastOrder = Orden::where('cliente_id', $userId)->orderBy('fecha', 'desc')->first();
-        $detalleOrdens = DetalleOrden::where('orden_id', $lastOrder->id)->paginate(10);
+        $orden = Orden::where('cliente_id', $userId)->orderBy('fecha', 'desc')->first();
+        $detalleOrdens = DetalleOrden::where('orden_id', $orden->id)->paginate(10);
 
-        return view('detalle-orden.index', compact('detalleOrdens'))
+        return view('detalle-orden.index', compact('detalleOrdens','orden'))
             ->with('i', ($request->input('page', 1) - 1) * $detalleOrdens->perPage());
     }
 
