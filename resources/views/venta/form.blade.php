@@ -6,11 +6,6 @@
         <x-input-error class="mt-2" :messages="$errors->get('cliente_id')"/>
     </div>
     <div>
-        <x-input-label for="estado_id" :value="__('Estado Id')"/>
-        <x-text-input id="estado_id" name="estado_id" type="text" class="mt-1 block w-full" :value="old('estado_id', $orden?->estado_id)" autocomplete="estado_id" placeholder="Estado Id"/>
-        <x-input-error class="mt-2" :messages="$errors->get('estado_id')"/>
-    </div>
-    <div>
         <x-input-label for="total" :value="__('Total')"/>
         <x-text-input id="total" name="total" type="text" class="mt-1 block w-full" :value="old('total', $orden?->total)" autocomplete="total" placeholder="Total"/>
         <x-input-error class="mt-2" :messages="$errors->get('total')"/>
@@ -23,6 +18,23 @@
         <x-input-error class="mt-2" :messages="$errors->get('fecha')"/>
     </div>
 
+    <input type="hidden" name="estado_id" id="estado_id_hidden" :value="old('estado_id', $orden ? $orden->estado_id : '')">
+
+    <!--mod form para add select mode -->
+    <select class="block mt-1 w-full rounded-lg" wire:model="estado_id" id="estado_id" onchange="updateHiddenInput()">
+    <option hidden selected>- SELECCIONE -</option>
+    @foreach ($estados as $estado)
+        <option value="{{$estado->id}}">{{$estado->nombre}}</option>
+    @endforeach
+</select>
+<script>
+    function updateHiddenInput() {
+        var selectedEstadoId = document.getElementById('estado_id').value;
+        document.getElementById('estado_id_hidden').value = selectedEstadoId;
+        
+    }
+</script>
+<!-- end select-->
     <div class="flex items-center gap-4">
         <x-primary-button>Submit</x-primary-button>
     </div>

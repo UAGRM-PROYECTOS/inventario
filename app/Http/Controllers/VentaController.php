@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\DetalleOrdenRequest;
+use App\Models\Estado;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -34,8 +35,8 @@ class VentaController extends Controller
     public function create(): View
     {
         $orden = new Orden();
-
-        return view('venta.create', compact('orden'));
+        $estados = Estado::all();
+        return view('venta.create', compact('orden','estados'));
     }
 
     /**
@@ -125,8 +126,8 @@ class VentaController extends Controller
     public function edit($id): View
     {
         $orden = Orden::find($id);
-
-        return view('venta.edit', compact('orden'));
+        $estados = Estado::all();
+        return view('venta.edit', compact('orden','estados'));
     }
 
     /**
