@@ -16,10 +16,10 @@
                 <div>
                     <a class=" pt-3 px-3 hover:text-xl font-bold hover:cursor-pointer" href="{{route('productos.show', $producto->id)}}">{{$producto->nombre}}</a>
                     <p class=" px-3"><span class="font-bold">Precio:</span> {{$producto->precio}} Bs.</p>
-                    <p class=" px-3 lowercase">
+                    <!--<p class=" px-3 lowercase">
                         <span class="font-bold capitalize">Descripción: </span>
                         {{$producto->descripcion}}
-                    </p>
+                    </p>-->
 
                     <div class="m-3 bg-grey-800 hover:bg-white p-5 inline-block rounded-lg" >
                         <div class="flex justify-center">
