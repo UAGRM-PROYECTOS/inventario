@@ -1,4 +1,6 @@
 <x-app-layout>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+
     <style>
         .italic-font {
             font-style: italic;
@@ -59,47 +61,61 @@
             scrollbar-width: none;
         }
 
-        .carousel::-webkit-scrollbar {
-            display: none;
+        .carousel::-webkit-scrollbar,
+        .carousel2::-webkit-scrollbar,
+        {
+        display: none;
         }
 
-        .carousel.no-transition {
-            scroll-behavior: auto;
+        .carousel.no-transition,
+        .carousel2.no-transition,
+        {
+        scroll-behavior: auto;
         }
 
-        .carousel.dragging {
-            scroll-snap-type: none;
-            scroll-behavior: auto;
+        .carousel.dragging,
+        .carousel2.dragging,
+        {
+        scroll-snap-type: none;
+        scroll-behavior: auto;
         }
 
-        .carousel.dragging .card {
-            cursor: grab;
-            user-select: none;
+        .carousel.dragging .card,
+        .carousel2.dragging .card,
+        {
+        cursor: grab;
+        user-select: none;
         }
 
-        .carousel :where(.card, .img) {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .carousel :where(.card, .img),
+        .carousel2 :where(.card, .img),
+        {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         }
 
-        .carousel .card {
-            scroll-snap-align: center;
-            height: 342px;
-            /* width: 70%; */
-            list-style: none;
-            background: #fff;
-            cursor: pointer;
-            padding-bottom: 15px;
-            flex-direction: column;
-            border-radius: 8px;
+        .carousel .card,
+        .carousel2 .card,
+        {
+        scroll-snap-align: center;
+        height: 342px;
+        /* width: 70%; */
+        list-style: none;
+        background: #fff;
+        cursor: pointer;
+        padding-bottom: 15px;
+        flex-direction: column;
+        border-radius: 8px;
         }
 
-        .carousel .card .img {
-            background: #04527b;
-            height: 148px;
-            width: 148px;
-            border-radius: 50%;
+        .carousel .card .img,
+        .carousel2 .card .img,
+        {
+        background: #04527b;
+        height: 148px;
+        width: 148px;
+        border-radius: 50%;
         }
 
         .card .img img {
@@ -110,15 +126,18 @@
             border: 4px solid #fff;
         }
 
-        .carousel .card h2 {
-            font-weight: 500;
-            font-size: 1.56rem;
-            margin: 30px 0 5px;
+        .carousel2 .card h2,
+        {
+        font-weight: 500;
+        font-size: 1.56rem;
+        margin: 30px 0 5px;
         }
 
-        .carousel .card span {
-            color: #6A6D78;
-            font-size: 1.31rem;
+        .carousel .card span,
+        .carousel2 .card span,
+        {
+        color: #6A6D78;
+        font-size: 1.31rem;
         }
 
         .card h2,
@@ -136,6 +155,111 @@
             .wrapper-tecnicos .carousel {
                 grid-auto-columns: 100%;
             }
+        }
+    </style>
+
+    <style>
+        :root {
+            /* FONT */
+            --font: 'Poppins', sans-serif;
+
+            /* COLORS */
+            --color: #9176FF;
+            --bg-color: #f4f4f4;
+        }
+
+        .body-swiper {
+            font-family: var(--font);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 60vh;
+
+            background-color: var(--bg-color);
+
+        }
+
+        /* ----------- SLIDER ------------ */
+        .swiper {
+            width: 100%;
+        }
+
+        .swiper-wrapper {
+            width: 100%;
+            height: 35em;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-adulto {
+            width: 20em;
+            height: 60%;
+            background-color: #fff;
+            border-radius: 2em;
+            box-shadow: 0 0 2em rgba(0, 0, 0, .2);
+            padding: 2em 1em;
+
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            margin: 0 2em;
+        }
+
+        .swiper-slide:not(.swiper-slide-active) {
+            filter: blur(1px);
+        }
+
+        .card__image {
+            width: 10em;
+            height: 10em;
+            border-radius: 50%;
+            border: 5px solid var(--color);
+            padding: 3px;
+            margin-bottom: 2em;
+        }
+
+        .card__image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .card__content {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .card__title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            position: relative;
+            top: .2em;
+        }
+
+        .card__name {
+            color: var(--color);
+        }
+
+        .card__text {
+            text-align: center;
+            font-size: 1.1rem;
+            margin: 1em 0;
+        }
+
+        .card__btn {
+            background-color: var(--color);
+            color: #fff;
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            border: none;
+            padding: .5em;
+            border-radius: .5em;
+            margin-top: .5em;
+            cursor: pointer;
         }
     </style>
     <x-slot name="header">
@@ -157,51 +281,116 @@
                     {{ __("You're logged in!") }}
                 </div>
             </div>
-            <img :class="{ 'hidden': !isChildMode, 'w-full h-100': isChildMode }"
-                src="https://i.pinimg.com/originals/ce/7c/4e/ce7c4ec19b614ccde9be9f45aa93035f.gif" alt="">
+            <div :class="{ 'hidden': isYoungMode }">
+
+                <img :class="{ 'hidden': !isChildMode, 'w-full h-100': isChildMode }"
+                    src="https://i.pinimg.com/originals/ce/7c/4e/ce7c4ec19b614ccde9be9f45aa93035f.gif" alt="">
+            </div>
+            <div :class="{ 'hidden': isChildMode }">
 
 
-            <section :class="{ 'hidden': !isYoungMode }" id="equipo">
+                <section :class="{ 'hidden': !isYoungMode }" id="equipo">
 
-                <div class="body-carousel">
+                    <div class="body-carousel">
 
-                    <div class="wrapper-tecnicos">
-                        <i id="left" class="fa-solid fa-angle-left"></i>
-                        <ul class="carousel">
-                            <li class="card">
-                                <img src="{{ asset('img/img1.jpeg') }}" alt="">
-                            </li>
-                            <li class="card">
-                                <img src="{{ asset('img/img2.jpeg') }}" alt="">
-                            </li>
-                            <li class="card">
-                                <img src="{{ asset('img/img3.jpeg') }}" alt="">
-                            </li>
-                            <li class="card">
-                                <img src="{{ asset('img/img4.jpeg') }}" alt="">
-                            </li>
-                            <li class="card">
-                                <img src="{{ asset('img/img5.jpg') }}" alt="">
-                            </li>
-                            <li class="card">
-                                <img src="{{ asset('img/img6.jpg') }}" alt="">
-                            </li>
+                        <div class="wrapper-tecnicos">
+                            <i id="left" class="fa-solid fa-angle-left"></i>
+                            <ul class="carousel">
+                                <li class="card">
+                                    <img src="{{ asset('img/img1.jpeg') }}" alt="">
+                                </li>
+                                <li class="card">
+                                    <img src="{{ asset('img/img2.jpeg') }}" alt="">
+                                </li>
+                                <li class="card">
+                                    <img src="{{ asset('img/img3.jpeg') }}" alt="">
+                                </li>
+                                <li class="card">
+                                    <img src="{{ asset('img/img4.jpeg') }}" alt="">
+                                </li>
+                                <li class="card">
+                                    <img src="{{ asset('img/img5.jpg') }}" alt="">
+                                </li>
+                                <li class="card">
+                                    <img src="{{ asset('img/img6.jpg') }}" alt="">
+                                </li>
 
 
-                            {{-- <li class="card">
+                                {{-- <li class="card">
                                 <div class="img"><img src="img/img-1.jpg" alt="img" draggable="false"></div>
                                 <h2>Sra. Karen Garcia Escobar</h2>
                                 <span>Secretaria - S.D.E.R</span>
                             </li> --}}
-                        </ul>
-                        <i id="right" class="fa-solid fa-angle-right"></i>
-                    </div>
+                            </ul>
+                            <i id="right" class="fa-solid fa-angle-right"></i>
+                        </div>
 
+                    </div>
+                </section>
+            </div>
+            <div :class="{ 'hidden': isChildMode }">
+
+                <div :class="{ 'hidden': isYoungMode }">
+
+
+                    <div class="body-swiper">
+
+                        <section class="swiper mySwiper">
+
+                            <div class="swiper-wrapper">
+
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/kiwi1.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/kiwi2.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/kiwi3.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/kiwi4.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/banana1.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/banana2.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/banana3.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/banana4.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/mango1.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/mango2.jpg') }}" alt="card image">
+                                </div>
+
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/mango3.jpg') }}" alt="card image">
+                                </div>
+                                <div class="card-adulto swiper-slide">
+                                    <img src="{{ asset('img/mango4.jpg') }}" alt="card image">
+                                </div>
+                            </div>
+
+
+
+                        </section>
+                    </div>
                 </div>
-            </section>
+
+            </div>
+
+
 
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 
     <script>
         const wrapper = document.querySelector(".wrapper-tecnicos");
@@ -299,4 +488,30 @@
         wrapper.addEventListener("mouseenter", () => clearTimeout(timeoutId));
         wrapper.addEventListener("mouseleave", autoPlay);
     </script>
+
+    <!-- Initialize Swiper -->
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            autoplay: true,
+            autoplayTimeout: 1000,
+            autoplayHoverPause: true,
+
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            coverflowEffect: {
+                rotate: 0,
+                stretch: 0,
+                depth: 300,
+                modifier: 1,
+                slideShadows: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+            },
+        });
+    </script>
+
 </x-app-layout>
