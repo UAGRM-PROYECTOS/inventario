@@ -1,5 +1,18 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ isDarkMode: localStorage.getItem('theme') === 'dark' }" :class="{ 'dark': isDarkMode }">
+{{-- <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ isDarkMode: localStorage.getItem('theme') === 'dark' }" :class="{ 'dark': isDarkMode }"> --}}
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" 
+    x-data="{ 
+        isDarkMode: {{ gmdate('H', time() - 4*3600) >= 20 || gmdate('H', time() - 4*3600) < 6 ? 'true' : 'false' }}, 
+        isChildMode: localStorage.getItem('isChildMode') === 'true',
+        isYoungMode: localStorage.getItem('isYoungMode') === 'true',
+        counter : 0,
+        toggleDarkMode() {
+            this.isDarkMode = !this.isDarkMode;
+            localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
+        }
+    }" 
+    :class="{ 'dark': isDarkMode }">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,8 +27,11 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
+
 <body class="font-sans antialiased" :class="{ 'dark': isDarkMode }">
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div 
+    :class="{ 'bg-gray-100 dark:bg-gray-900': !isChildMode,  'border-b border-green-500 bg-red-500': isChildMode, 'border-b border-blue-500 bg-blue-500': isYoungMode, }"
+    class="min-h-screen ">
         @include('layouts.navigation')
         <!-- Page Heading -->
         @isset($header)
@@ -24,6 +40,7 @@
                     {{ $header }}
                 </div>
             </header>
+            <div></div>
         @endisset
         <!--@include('layouts.nav-sidebar')-->
         <!-- Page Content -->
@@ -34,4 +51,5 @@
 
 
 </body>
+
 </html>
