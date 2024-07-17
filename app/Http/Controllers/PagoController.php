@@ -309,13 +309,6 @@ class PagoController extends Controller
 
         //return $laTokenAuth;
     }
-    public function CallBack(Request $request){
-    // $estados = [
-    //     '1' => 'en_proceso',
-    //     '2' => 'pagado',
-    //     '3' => 'revertido',
-    //     '4' => 'anulado',
-    // ];
 
     public function UrlCallback()
     {
@@ -408,7 +401,15 @@ class PagoController extends Controller
 
 
 
+    public function CallBack(Request $request){
+        // $estados = [
+        //     '1' => 'en_proceso',
+        //     '2' => 'pagado',
+        //     '3' => 'revertido',
+        //     '4' => 'anulado',
+        // ];
 
+        
     // se actualizara el estado de la venta
     // $loVenta = Venta::where('nota_venta', $request->PedidoID)->first();
     // $loVenta->estado_pago = $estados[$request->Estado];
