@@ -5,32 +5,26 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-
-
+ 
                     <div class="py-12">
                             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                                     <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
-                                        <h3 class="font-semibold text-lg">Estadisticas</h3>
+                                        <h3 class="font-semibold text-lg">KPI</h3>
                                         <div class="flex gap-2">
                                             <div class="bg-green-200 mt-5 p-3 rounded-lg flex flex-col justify-center">
-                                                <p class="font-bold">Pizza mas vendida: <span
-                                                        class="font-normal">{{$pizzaMasVendida['pizza']->nombre ?? 'N/A'}}</span>
+                                                <p class="font-bold">Cantidad de Productos vendidos: <span
+                                                        class="font-normal">{{$cantProdVendidos ?? 'N/A'}}</span>
                                                 </p>
-                                                <p>Vendida: <span>{{$pizzaMasVendida['total_pedidos'] ?? '0'}}</span>
-                                                    veces</p>
+                                               <!-- <p>Vendida: <span>{{$pizzaMasVendida['total_pedidos'] ?? '0'}}</span>
+                                                    veces</p>-->
                                             </div>
                                             <div class="bg-red-200 mt-5 p-3 rounded-lg flex flex-col justify-center">
-                                                <p class="font-bold">Pizza menos vendida: <span
-                                                        class="font-normal">{{$pizzaMenosVendida['pizza']->nombre ?? 'N/A'}}</span>
+                                                <p class="font-bold">Cantidad de ventas obtenidads: <span
+                                                        class="font-normal">{{$cantVentasObtenidas ?? 'N/A'}}</span>
                                                 </p>
-                                                <p>Vendida: <span>{{$pizzaMenosVendida['total_pedidos'] ?? '0'}}</span>
-                                                    veces</p>
+                                                <!--<p>Vendida: <span>{{$pizzaMenosVendida['total_pedidos'] ?? '0'}}</span>
+                                                    veces</p>-->
                                             </div>
                                             <div class="bg-blue-200 mt-5 p-3 rounded-lg">
                                                 <p class="font-bold">Cantidad de usuarios: <span
@@ -38,21 +32,44 @@
                                                 <p>Cantidad de clientes: <span>{{$cantClientes}}</span></p>
                                                 <p>Cantidad de administradores: <span>{{$cantAdmin}}</span></p>
                                             </div>
-                                        </div>
-                                        <div class="flex">
-                                            <div class="mt-5 p-3 rounded-lg">
-                                                <h3 class="font-semibold text-lg">
-                                                    {{$user_month_chart->options['chart_title']}}
-                                                </h3>
-                                                {!! $user_month_chart->renderHtml() !!}
-                                            </div>
-                                            <div class="mt-5 p-3 rounded-lg">
-                                                <h3 class="font-semibold text-lg">
-                                                    {{$pedidos_month_chart->options['chart_title']}}
-                                                </h3>
-                                                {!! $pedidos_month_chart->renderHtml() !!}
+                                            <div class="bg-yellow-200 mt-5 p-3 rounded-lg flex flex-col justify-center">
+                                                <p class="font-bold">Cantidad Total en Bs por ventas: <span
+                                                        class="font-normal">{{$cantidadTotalVentas ?? 'N/A'}}</span>
+                                                </p>
+                                                <!--<p>Vendida: <span>{{$pizzaMenosVendida['total_pedidos'] ?? '0'}}</span>
+                                                    veces</p>-->
                                             </div>
                                         </div>
+                                        <div class="flex flex-wrap">
+
+    <div class="w-full md:w-1/2 p-3">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <h3 class="font-semibold text-lg p-4">
+                {{$pedidos_month_chart->options['chart_title']}}
+            </h3>
+            <div class="p-4">
+                {!! $pedidos_month_chart->renderHtml() !!}
+                {!! $pedidos_month_chart->renderChartJsLibrary() !!}
+                {!! $pedidos_month_chart->renderJs() !!}
+            </div>
+        </div>
+    </div>
+
+
+    <div class="w-full md:w-1/2 p-3">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+            <h3 class="font-semibold text-lg p-4">
+            {{$productos_chart_instance->options['chart_title']}}
+            </h3>
+            <div class="p-8">
+            {!! $productos_chart_instance->renderHtml() !!}
+            {!! $productos_chart_instance->renderChartJsLibrary() !!}
+            {!! $productos_chart_instance->renderJs() !!}
+            </div>
+        </div>
+    </div>
+</div>
+
                                     </div>
                                 </div>
                             </div>
@@ -66,8 +83,5 @@
                         @endsection
 
 
-                </div>
-            </div>
-        </div>
-    </div>
+
 </x-app-layout>
