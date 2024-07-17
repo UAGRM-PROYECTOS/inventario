@@ -42,7 +42,7 @@
             </header>
             <div></div>
         @endisset
-        <!--@include('layouts.nav-sidebar')-->
+        
         <!-- Page Content -->
         <main>
             {{ $slot }}

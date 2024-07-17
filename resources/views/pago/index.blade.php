@@ -17,6 +17,8 @@
                 <p class="blue-text">Proyecto de ejemplo de integración de servicios PagoFacil.<br></p>
                 <div class="card">
                     <h5 class="text-center mb-4">Laravel</h5>
+                    <!--<form class="form-card" action="/inf513/grupo18sa/inventario/public/consumirServicio" method="POST" target="QrImage"></form>
+                    -->
                     <form class="form-card" action="/consumirServicio" method="POST" target="QrImage">
                         @csrf
                         <div class="row justify-content-between text-left">

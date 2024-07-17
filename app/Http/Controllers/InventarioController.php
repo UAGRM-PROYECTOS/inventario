@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\InventarioRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
+date_default_timezone_set('America/La_Paz');
 class InventarioController extends Controller
 {
     /**

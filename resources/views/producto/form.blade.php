@@ -43,18 +43,36 @@
     </div>
     -->
     <input type="hidden" name="categoria_id" id="categoria_id_hidden" :value="old('categoria_id', $producto ? $producto->categoria_id : '')">
+    <input type="hidden" name="unidad" id="unidad_hidden" :value="old('unidad', $producto ? $producto->unidad : '')">
 
     <!--mod form para add select mode -->
+    <div>
+    <x-input-label for="precio" :value="__('Unidad')"/>
+    <select class="block mt-1 w-full rounded-lg" wire:model="unidad" id="unidad" onchange="updateHiddenInput()">
+    <option hidden selected>- SELECCIONE -</option>
+    @foreach ($unidades as $unidad)
+        <option value="{{ $unidad }}">{{ $unidad }}</option>
+    @endforeach
+</select>
+<x-input-error class="mt-2" :messages="$errors->get('precio')"/>
+</div>
+<div>
+<x-input-label for="precio" :value="__('Categoria')"/>
     <select class="block mt-1 w-full rounded-lg" wire:model="categoria_id" id="categoria_id" onchange="updateHiddenInput()">
     <option hidden selected>- SELECCIONE -</option>
     @foreach ($categorias as $categoria)
         <option value="{{$categoria->id}}">{{$categoria->nombre}}</option>
     @endforeach
-</select>
+    </select>
+<x-input-error class="mt-2" :messages="$errors->get('precio')"/>
+</div>
 <script>
     function updateHiddenInput() {
         var selectedCategoriaId = document.getElementById('categoria_id').value;
         document.getElementById('categoria_id_hidden').value = selectedCategoriaId;
+
+        var selectedUnidad = document.getElementById('unidad').value;
+        document.getElementById('unidad_hidden').value = selectedUnidad;
     }
 </script>
 <!-- end select-->

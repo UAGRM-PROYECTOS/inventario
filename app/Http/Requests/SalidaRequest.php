@@ -22,10 +22,8 @@ class SalidaRequest extends FormRequest
     public function rules(): array
     {
         return [
-			'metodovaluacion_id' => 'required',
 			'orden_id' => 'required',
 			'estado_id' => 'required',
-			'fecha_salida' => 'required',
         ];
     }
 }

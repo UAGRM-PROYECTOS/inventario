@@ -12,10 +12,12 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\DetalleOrdenRequest;
 use App\Models\Estado;
+use App\Models\Salida;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+date_default_timezone_set('America/La_Paz');
 class OrdenController extends Controller
 {
     /**
@@ -36,7 +38,8 @@ class OrdenController extends Controller
     {
         $orden = new Orden();
         $estados = Estado::all();
-        return view('orden.create', compact('orden','estados'));
+        $clientes = User::role('cliente')->get();
+        return view('orden.create', compact('orden','estados','clientes'));
     }
 
     /**
@@ -44,15 +47,16 @@ class OrdenController extends Controller
      */
     public function store(OrdenRequest $request): RedirectResponse
     {
-        //Orden::create($request->validated());
+        Orden::create($request->validated());
+        /*$cantidad = $request->input('cantidad');
         $id= Auth::id();
         Orden::create([
             'cliente_id' => $id,
-            'estado_id' => 9, 
+            'estado_id' => $request->, 
             'total' => 00.00, 
             'fecha' => Carbon::now(), // Current date and time
             
-        ]);
+        ]);*/
         return Redirect::route('ordens.index')
             ->with('success', 'Orden created successfully.');
     }
@@ -69,23 +73,24 @@ class OrdenController extends Controller
     public function ordenPedido($id): View
     {
         try {
-            // Buscar la orden por su ID
+
             $orden = Orden::findOrFail($id);
     
             // Cambiar el estado de la orden
             $orden->estado_id = 5; // Estado que indica que el pedido ha sido realizado
             $orden->save();
     
-            // Obtener los detalles de la orden paginados (si es necesario)
+
             $detalleOrdens = DetalleOrden::where('orden_id', $orden->id)->paginate();
 
             $pedidoRealizado='Pedido Realizao con exito';
-    
-            // Devolver la vista de la orden con los detalles y un mensaje indicando que ha sido pedido
-            return view('orden.show', compact('orden', 'detalleOrdens', 'pedidoRealizado'));
+            $iduser= Auth::id();
+            $cliente = User::findOrFail($iduser);
+ 
+            return view('pago.create', compact('orden', 'detalleOrdens','cliente', 'pedidoRealizado'));
     
         } catch (ModelNotFoundException $e) {
-            // Manejar el caso donde no se encuentra la orden
+     
             return Redirect::back()->with('error', 'No se pudo encontrar la orden.');
         }
     }
@@ -127,7 +132,8 @@ class OrdenController extends Controller
     {
         $orden = Orden::find($id);
         $estados = Estado::all();
-        return view('orden.edit', compact('orden','estados'));
+        $clientes = User::role('cliente')->get();
+        return view('orden.edit', compact('orden','estados','clientes'));
     }
 
     /**
@@ -136,7 +142,8 @@ class OrdenController extends Controller
     public function update(OrdenRequest $request, Orden $orden): RedirectResponse
     {
         $orden->update($request->validated());
-
+        $salidaController = new SalidaController();
+        $salidaController->store($orden->id);
         return Redirect::route('ordens.index')
             ->with('success', 'Orden updated successfully');
     }

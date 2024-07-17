@@ -7,12 +7,13 @@ use App\Models\Ingreso;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\DetalleIngresoRequest;
+use App\Models\Inventario;
 use App\Models\Producto;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
-
+date_default_timezone_set('America/La_Paz');
 class DetalleIngresoController extends Controller
 {
     /**
@@ -55,6 +56,19 @@ class DetalleIngresoController extends Controller
         // Actualizar el total del ingreso
         $ingreso->total += $detalleIngreso->costo_total;
         $ingreso->save();
+
+        $producto = Producto::findOrFail($detalleIngreso->producto_id);
+
+        Inventario::create([
+            'producto_id' => $detalleIngreso->producto_id,
+            'cantidad' => $detalleIngreso->cantidad,
+            'costo_unitario' => $detalleIngreso->costo_unitario,
+            'fecha_ingreso' => $detalleIngreso->ingreso->fecha_ingreso,
+        ]);
+
+        
+        $producto->stock += $detalleIngreso->cantidad;
+        $producto->save();
     });
 
 

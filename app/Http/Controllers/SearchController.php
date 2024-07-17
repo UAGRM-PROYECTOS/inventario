@@ -9,7 +9,7 @@ use App\Models\Categoria;
 use App\Models\Estado;
 use App\Models\MetodoPago;
 use Illuminate\Http\Request;
-
+date_default_timezone_set('America/La_Paz');
 class SearchController extends Controller
 {
     public function index($query){

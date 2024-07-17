@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Models\Orden;
 use Carbon\Carbon;
-
+date_default_timezone_set('America/La_Paz');
 class AuthenticatedSessionController extends Controller
 {
     /**

@@ -7,11 +7,15 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\PagoRequest;
+use App\Models\DetalleOrden;
+use App\Models\Orden;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use GuzzleHttp\Client;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
-
+date_default_timezone_set('America/La_Paz');
 class PagoController extends Controller
 {
     /**
@@ -28,6 +32,24 @@ class PagoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    public function ordenPago($id): View
+    {
+        try {
+
+            $orden = Orden::findOrFail($id);
+    
+            $detalleOrdens = DetalleOrden::where('orden_id', $orden->id)->paginate();
+            $iduser= Auth::id();
+            $cliente = User::findOrFail($iduser);
+ 
+            return view('pago.create', compact('orden', 'detalleOrdens','cliente'));
+    
+        } catch (ModelNotFoundException $e) {
+     
+            return Redirect::back()->with('error', 'No se pudo encontrar la orden.');
+        }
+    }
+
     public function create(): View
     {
         $pago = new Pago();

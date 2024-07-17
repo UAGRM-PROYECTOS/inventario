@@ -12,6 +12,7 @@
                     <div class="sm:flex sm:items-center">
                         <div class="sm:flex-auto">
                             <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Create') }} Pago</h1>
+                            <h3>PagoFacil QR y Tigo Money</h3>
                             <p class="mt-2 text-sm text-gray-700">Add a new {{ __('Pago') }}.</p>
                         </div>
                         <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -21,8 +22,8 @@
 
                     <div class="flow-root">
                         <div class="mt-8 overflow-x-auto">
-                            <div class="max-w-xl py-2 align-middle">
-                                <form method="POST" action="{{ route('pagos.store') }}"  role="form" enctype="multipart/form-data">
+         
+                                <form method="POST" action="{{ route('pago.consumirservicio') }}"  role="form" enctype="multipart/form-data " target="QrImage">
                                     @csrf
 
                                     @include('pago.form')

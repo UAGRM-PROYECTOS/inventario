@@ -19,6 +19,7 @@ use App\Http\Controllers\DetalleOrdenController;
 use App\Http\Controllers\SalidaController;
 use App\Http\Controllers\InventarioController;
 use App\Http\Controllers\PagoController;
+use App\Http\Middleware\CheckPermission;
 
 Route::get('/', function () {
     return view('welcome');
@@ -36,14 +37,14 @@ Route::middleware('auth',)->group(function () {
 });
 
 
-Route::middleware(['auth' ])->group(function () {
+Route::middleware(['auth','role:admin' ])->group(function () {
     Route::resource('estados', EstadoController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::resource('metodo-pagos', MetodoPagoController::class);
     Route::resource('proveedors', ProveedorController::class);
     Route::resource('clientes', ClienteController::class);
     Route::resource('productos', ProductoController::class);
-    Route::get('/catalogo', [ProductoController::class, 'CatalogoView'])->name('producto.catalogo');
+#    Route::get('/catalogo', [ProductoController::class, 'CatalogoView'])->name('producto.catalogo');
     Route::resource('ingresos', IngresoController::class);
     Route::resource('metodo-valuacions', MetodoValuacionController::class);
     Route::resource('detalle-ingresos', DetalleIngresoController::class);
@@ -56,19 +57,22 @@ Route::middleware(['auth' ])->group(function () {
     Route::resource('salidas', SalidaController::class);
     Route::resource('inventarios', InventarioController::class);
     Route::resource('pagos', PagoController::class);
+    Route::get('/orden-pago/{id}', [PagoController::class, 'ordenPago'])->name('orden.pago');
     
 
     #PAGOFACIL
-    Route::post('/consumirServicio', [PagoController::class, 'RecolectarDatos']);
+    Route::post('/consumirServicio', [PagoController::class, 'RecolectarDatos'])->name('pago.consumirservicio');
     Route::post('/consultar', [PagoController::class, 'ConsultarEstado']);
 
-    Route::get('/consultarlo', [PagoController::class, 'AccessPagoFacil']);
+    #Route::get('/consultarlo', [PagoController::class, 'AccessPagoFacil']);
 });
-#Route::get('/clientes', [ClienteController::class, 'index'])->name('cliente.index');
 
-#Route::middleware(['auth', 'role:cliente'])->group(function () {    
-    #Route::resource('clientes', ClienteController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/catalogo', [ProductoController::class, 'CatalogoView'])->name('producto.catalogo') ;
+    Route::resource('detalle-ordens', DetalleOrdenController::class);
+    Route::get('/addDetalleOrden', [OrdenController::class, 'addDetalleOrden'])->name('ordens.addDetalleOrden');
+    Route::get('/orden-pedido/{id}', [OrdenController::class, 'ordenPedido'])->name('orden.pedido');
+});
 
-#});
 
 require __DIR__.'/auth.php';

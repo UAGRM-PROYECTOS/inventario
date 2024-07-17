@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
-
+date_default_timezone_set('America/La_Paz');
 class DetalleOrdenController extends Controller
 {
     /**

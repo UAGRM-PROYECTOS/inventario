@@ -32,6 +32,7 @@ class User extends Authenticatable
         'direccion',
         'telefono',
         'sexo',
+        'ci_nit'
     ];
 
     /**

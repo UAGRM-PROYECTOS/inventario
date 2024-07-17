@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
+date_default_timezone_set('America/La_Paz');
 class ProfileController extends Controller
 {
     /**

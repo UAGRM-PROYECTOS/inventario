@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Auth;
-
+date_default_timezone_set('America/La_Paz');
 class ProductoController extends Controller
 {
     /**
@@ -52,7 +52,8 @@ class ProductoController extends Controller
         $producto = new Producto();
         $imagen= Producto::get('imagen');
         $categorias = Categoria::all(); 
-        return view('producto.create', compact('producto', 'categorias','imagen'));
+        $unidades =['KG','UNIDAD','LIB','LITRO'];
+        return view('producto.create', compact('producto', 'categorias','imagen','unidades'));
     }
 
     /**
@@ -65,9 +66,11 @@ class ProductoController extends Controller
         $imagePath = $request->file('imagen')->getRealPath();
         $uploadedFileUrl = Cloudinary::upload($imagePath)->getSecurePath();
     }
+    $data = $request->validated();
+    $data = array_map('strtoupper', $data);
 
     // Create the product
-    $producto = Producto::create($request->validated());
+    $producto = Producto::create($data);
 
     // Set the imagen field if uploaded
     if (isset($uploadedFileUrl)) {
@@ -96,7 +99,8 @@ class ProductoController extends Controller
     {
         $producto = Producto::find($id);
         $categorias = Categoria::all(); 
-        return view('producto.edit', compact('producto', 'categorias'));
+        $unidades =['KG','UNIDAD','LIB','LITRO'];
+        return view('producto.edit', compact('producto', 'categorias','unidades'));
     }
 
     /**

@@ -21,6 +21,7 @@ class EstadosSeeder extends Seeder
         Estado::create(['nombre' => 'VENDIDO']);
         Estado::create(['nombre' => 'ENTREGADO']);
         Estado::create(['nombre' => 'ENVIADO']);
+        Estado::create(['nombre' => 'CREADO']);
 
     }
 }
