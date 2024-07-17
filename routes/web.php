@@ -34,12 +34,12 @@ Route::middleware('auth',)->group(function () {
 });
 
 
-Route::middleware(['auth','role:admin' ])->group(function () {
+Route::middleware(['auth','role:admin','visits'])->group(function () {
     Route::resource('estados', EstadoController::class);
     Route::resource('categorias', CategoriaController::class);
     Route::resource('metodo-pagos', MetodoPagoController::class);
     Route::resource('proveedors', ProveedorController::class);
-    #Route::resource('clientes', ClienteController::class);
+    Route::resource('clientes', ClienteController::class);
     Route::resource('productos', ProductoController::class);
 #    Route::get('/catalogo', [ProductoController::class, 'CatalogoView'])->name('producto.catalogo');
     Route::resource('ingresos', IngresoController::class);
@@ -63,27 +63,8 @@ Route::middleware(['auth','role:admin' ])->group(function () {
 
     #Route::get('/consultarlo', [PagoController::class, 'AccessPagoFacil']);
 
-#Rutas con nombres para clientes
-Route::get('/clientes', [ClienteController::class, 'index'])
-            ->name('clientes.index')
-            ->middleware('auth', 'visits');
 
-Route::get('/clientes/create', [ClienteController::class, 'create'])
-            ->name('clientes.create')
-            ->middleware('auth');
 
-Route::get('/clientes/{id}/edit', [ClienteController::class, 'edit'])
-            ->name('clientes.edit')
-            ->middleware('auth');
-
-Route::delete('/clientes/{id}/destroy', [ClienteController::class, 'destroy'])
-            ->name('clientes.destroy')
-            ->middleware('auth');
-
-Route::get('/clientes/{id}/show', [ClienteController::class, 'show'])
-            ->name('clientes.show')->middleware('auth')
-            ->middleware('auth');
-#------------------------------------------------------
 });
 
 Route::middleware(['auth'])->group(function () {

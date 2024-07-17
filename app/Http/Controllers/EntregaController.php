@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\DetalleOrdenRequest;
 use App\Models\Estado;
 use App\Models\User;
+use App\Models\Visit;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -25,8 +26,8 @@ class EntregaController extends Controller
     public function index(Request $request): View
     {
         $ordens = Orden::where('estado_id', 8)->paginate(10);
-
-        return view('entrega.index', compact('ordens'))
+        $visits = Visit::where(['page_name' => 'entregas.index'])->first();
+        return view('entrega.index', compact('ordens','visits'))
             ->with('i', ($request->input('page', 1) - 1) * $ordens->perPage());
     }
 
@@ -39,7 +40,8 @@ class EntregaController extends Controller
         $orden = new Orden();
         $estados = Estado::all();
         $clientes = User::role('cliente')->get();
-        return view('entrega.create', compact('orden','estados','clientes'));
+        $visits = Visit::where(['page_name' => 'entregas.create'])->first();
+        return view('entrega.create', compact('orden','estados','clientes','visits'));
     }
 
     /**
@@ -56,6 +58,7 @@ class EntregaController extends Controller
             'fecha' => Carbon::now(), // Current date and time
             
         ]);
+        
         return Redirect::route('entregas.index')
             ->with('success', 'Orden created successfully.');
     }
@@ -67,7 +70,8 @@ class EntregaController extends Controller
     {
         $orden = Orden::find($id);
         $detalleOrdens  = DetalleOrden::where('orden_id', $id)->paginate(10);
-        return view('entrega.show', compact('orden','detalleOrdens'));
+        $visits = Visit::where(['page_name' => 'entregas.show'])->first();
+        return view('entrega.show', compact('orden','detalleOrdens','visits'));
     }
     public function ordenPedido($id): View
     {
@@ -131,7 +135,8 @@ class EntregaController extends Controller
         $orden = Orden::find($id);
         $estados = Estado::all();
         $clientes = User::role('cliente')->get();
-        return view('entrega.edit', compact('orden','estados','clientes'));
+        $visits = Visit::where(['page_name' => 'entregas.edit'])->first();
+        return view('entrega.edit', compact('orden','estados','clientes','visits'));
     }
 
     /**

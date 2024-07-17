@@ -48,7 +48,8 @@ class ClienteController extends Controller
     public function create(): View
     {
         $cliente = new User();
-        return view('cliente.create', compact('cliente'));
+        $visits = Visit::where(['page_name' => 'clientes.create'])->first();
+        return view('cliente.create', compact('cliente','visits'));
     }
 
     /**
@@ -70,8 +71,8 @@ class ClienteController extends Controller
     public function show($id): View
     {
         $cliente = User::find($id);
-
-        return view('cliente.show', compact('cliente'));
+        $visits = Visit::where(['page_name' => 'clientes.show'])->first();
+        return view('cliente.show', compact('cliente','visits'));
     }
 
     public function showApi(string $id)
@@ -88,8 +89,8 @@ class ClienteController extends Controller
     public function edit($id): View
     {
         $cliente = User::find($id);
-
-        return view('cliente.edit', compact('cliente'));
+        $visits = Visit::where(['page_name' => 'clientes.edit'])->first();
+        return view('cliente.edit', compact('cliente','visits'));
     }
 
     /**

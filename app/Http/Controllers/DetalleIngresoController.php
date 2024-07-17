@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\DetalleIngresoRequest;
 use App\Models\Inventario;
 use App\Models\Producto;
+use App\Models\Visit;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -22,7 +23,8 @@ class DetalleIngresoController extends Controller
     public function index(Request $request): View
     {
         $detalleIngresos = DetalleIngreso::paginate();
-        return view('detalle-ingreso.index', compact('detalleIngresos'))
+        $visits = Visit::where(['page_name' => 'detalle-ingresos.index'])->first();
+        return view('detalle-ingreso.index', compact('detalleIngresos','visits'))
             ->with('i', ($request->input('page', 1) - 1) * $detalleIngresos->perPage());
     }
 
@@ -35,7 +37,8 @@ class DetalleIngresoController extends Controller
     
         $detalleIngreso = new DetalleIngreso();
         $productos = Producto::all(); 
-        return view('detalle-ingreso.create', compact('detalleIngreso', 'productos'));
+        $visits = Visit::where(['page_name' => 'detalle-ingresos.create'])->first();
+        return view('detalle-ingreso.create', compact('detalleIngreso', 'productos','visits' ));
     }
 
     /**
@@ -90,8 +93,8 @@ class DetalleIngresoController extends Controller
         // Crea un nuevo detalle de ingreso asociado a este ingreso
         $detalleIngreso = new DetalleIngreso();
         $detalleIngreso->ingreso_id = $id; // Asigna el ID del ingreso al detalle de ingreso
-    
-        return view('detalle-ingreso.create', compact('detalleIngreso', 'ingreso','productos'));
+        $visits = Visit::where(['page_name' => 'detalle-ingresos.show'])->first();
+        return view('detalle-ingreso.create', compact('detalleIngreso', 'ingreso','productos','visits'));
     }
 
     /**
@@ -101,7 +104,8 @@ class DetalleIngresoController extends Controller
     {
         $detalleIngreso = DetalleIngreso::find($id);
         $productos = Producto::all(); 
-        return view('detalle-ingreso.edit', compact('detalleIngreso', 'productos'));
+        $visits = Visit::where(['page_name' => 'detalle-ingresos.edit'])->first();
+        return view('detalle-ingreso.edit', compact('detalleIngreso', 'productos','visits'));
     }
 
     /**

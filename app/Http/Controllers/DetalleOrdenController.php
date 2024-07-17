@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\DetalleOrdenRequest;
 use App\Models\Orden;
+use App\Models\Visit;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -26,8 +27,8 @@ class DetalleOrdenController extends Controller
         // Retrieve the last order of the authenticated user
         $orden = Orden::where('cliente_id', $userId)->orderBy('fecha', 'desc')->first();
         $detalleOrdens = DetalleOrden::where('orden_id', $orden->id)->paginate(10);
-
-        return view('detalle-orden.index', compact('detalleOrdens','orden'))
+        $visits = Visit::where(['page_name' => 'detalle-ordens.index'])->first();
+        return view('detalle-orden.index', compact('detalleOrdens','orden','visits'))
             ->with('i', ($request->input('page', 1) - 1) * $detalleOrdens->perPage());
     }
 
@@ -37,8 +38,8 @@ class DetalleOrdenController extends Controller
     public function create(): View
     {
         $detalleOrden = new DetalleOrden();
-
-        return view('detalle-orden.create', compact('detalleOrden'));
+        $visits = Visit::where(['page_name' => 'detalle-ordens.create'])->first();
+        return view('detalle-orden.create', compact('detalleOrden','visits'));
     }
 
     /**
@@ -91,8 +92,8 @@ class DetalleOrdenController extends Controller
     public function show($id): View
     {
         $detalleOrden = DetalleOrden::find($id);
-
-        return view('detalle-orden.show', compact('detalleOrden'));
+        $visits = Visit::where(['page_name' => 'detalle-ordens.show'])->first();
+        return view('detalle-orden.show', compact('detalleOrden','visits'));
     }
 
     /**
@@ -101,8 +102,8 @@ class DetalleOrdenController extends Controller
     public function edit($id): View
     {
         $detalleOrden = DetalleOrden::find($id);
-
-        return view('detalle-orden.edit', compact('detalleOrden'));
+        $visits = Visit::where(['page_name' => 'detalle-ordens.edit'])->first();
+        return view('detalle-orden.edit', compact('detalleOrden','visits'));
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Categoria;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoriaRequest;
+use App\Models\Visit;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 date_default_timezone_set('America/La_Paz');
@@ -17,8 +18,8 @@ class CategoriaController extends Controller
     public function index(Request $request): View
     {
         $categorias = Categoria::paginate();
-
-        return view('categoria.index', compact('categorias'))
+        $visits = Visit::where(['page_name' => 'categorias.index'])->first();
+        return view('categoria.index', compact('categorias','visits'))
             ->with('i', ($request->input('page', 1) - 1) * $categorias->perPage());
     }
 
@@ -28,8 +29,8 @@ class CategoriaController extends Controller
     public function create(): View
     {
         $categoria = new Categoria();
-
-        return view('categoria.create', compact('categoria'));
+        $visits = Visit::where(['page_name' => 'categorias.create'])->first();
+        return view('categoria.create', compact('categoria','visits'));
     }
 
     /**
@@ -49,8 +50,8 @@ class CategoriaController extends Controller
     public function show($id): View
     {
         $categoria = Categoria::find($id);
-
-        return view('categoria.show', compact('categoria'));
+        $visits = Visit::where(['page_name' => 'categorias.show'])->first();
+        return view('categoria.show', compact('categoria','visits'));
     }
 
     /**
@@ -59,8 +60,8 @@ class CategoriaController extends Controller
     public function edit($id): View
     {
         $categoria = Categoria::find($id);
-
-        return view('categoria.edit', compact('categoria'));
+        $visits = Visit::where(['page_name' => 'categorias.edit'])->first();
+        return view('categoria.edit', compact('categoria','visits'));
     }
 
     /**

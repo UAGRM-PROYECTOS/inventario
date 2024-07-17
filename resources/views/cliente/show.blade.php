@@ -50,5 +50,6 @@
                 </div>
             </div>
         </div>
+        <x-visits> {{$visits->cant}} </x-visits>
     </div>
 </x-app-layout>
