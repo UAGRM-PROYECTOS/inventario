@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthApiController;
 use App\Http\Controllers\PagoController;
 
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -15,4 +16,6 @@ Route::post('/logout', [AuthApiController::class, 'logout'])->middleware('auth:s
 
 
 Route::get('/consultarlo', [PagoController::class, 'AccessPagoFacilv2'])->middleware('auth:sanctum');
+
+Route::post('/urlcallback', [PagoController::class, 'urlCallback']);
 

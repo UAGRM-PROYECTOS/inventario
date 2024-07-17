@@ -88,5 +88,33 @@ class Orden extends Model
     {
         return $this->orders()->where('estado_id', 8)->latest()->first();
     }
+
+
+    public function metodoPago()
+    {
+        return $this->belongsTo(MetodoPago::class, 'metodo_pago_id');
+    }
+   
+
+    public function obtenerventa($ventaID)
+{
+    return Mapi::find($ventaID);
+}
+
+    public function verificarmetodopago($metodoPago)
+    {
+        return MetodoPago::find($metodoPago);
+    }
+
+    public function pagarventa($ventaID, $nuevaFecha, $nuevoMetodoPago, $nuevoEstado)
+    {
+        $venta = Mapi::findOrFail($ventaID);
+        $venta->fecha_hora = $nuevaFecha;
+        $venta->metodo_pago_id = $nuevoMetodoPago->id;
+        $venta->estado_id = $nuevoEstado;
+        $venta->save();
+
+        return $venta;
+    }
     
 }
