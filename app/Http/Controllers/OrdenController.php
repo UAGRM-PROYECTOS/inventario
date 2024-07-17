@@ -73,23 +73,24 @@ class OrdenController extends Controller
     public function ordenPedido($id): View
     {
         try {
-            // Buscar la orden por su ID
+
             $orden = Orden::findOrFail($id);
     
             // Cambiar el estado de la orden
             $orden->estado_id = 5; // Estado que indica que el pedido ha sido realizado
             $orden->save();
     
-            // Obtener los detalles de la orden paginados (si es necesario)
+
             $detalleOrdens = DetalleOrden::where('orden_id', $orden->id)->paginate();
 
             $pedidoRealizado='Pedido Realizao con exito';
-    
-            // Devolver la vista de la orden con los detalles y un mensaje indicando que ha sido pedido
-            return view('orden.show', compact('orden', 'detalleOrdens', 'pedidoRealizado'));
+            $iduser= Auth::id();
+            $cliente = User::findOrFail($iduser);
+ 
+            return view('pago.create', compact('orden', 'detalleOrdens','cliente', 'pedidoRealizado'));
     
         } catch (ModelNotFoundException $e) {
-            // Manejar el caso donde no se encuentra la orden
+     
             return Redirect::back()->with('error', 'No se pudo encontrar la orden.');
         }
     }

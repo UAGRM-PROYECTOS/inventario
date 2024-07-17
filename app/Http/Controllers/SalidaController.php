@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\SalidaRequest;
 use App\Models\DetalleOrden;
+use App\Models\Estado;
 use App\Models\Inventario;
 use App\Models\Orden;
 use App\Models\Producto;
@@ -33,8 +34,8 @@ class SalidaController extends Controller
     public function create(): View
     {
         $salida = new Salida();
-
-        return view('salida.create', compact('salida'));
+        $estados = Estado::all();
+        return view('salida.create', compact('salida','estados'));
     }
 
     /**
@@ -51,7 +52,7 @@ class SalidaController extends Controller
                 Salida::create([
                     'metodovaluacion_id' => 1, // 1 -> PEPS por defecto
                     'orden_id' => $orden->id,
-                    'estado_id' => 8, // Ajusta el estado según tus constantes
+                    'estado_id' => 7, // Ajusta el estado según tus constantes
                     'fecha_salida' => now(),
                 ]);
 
@@ -107,18 +108,19 @@ class SalidaController extends Controller
      */
     public function edit($id): View
     {
-        $salida = Salida::find($id);
-
-        return view('salida.edit', compact('salida'));
+        $salida = Orden::find($id);
+        $estados = Estado::all();
+        return view('salida.edit', compact('salida','estados'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(SalidaRequest $request, Salida $salida): RedirectResponse
+    public function update($request, $salida): RedirectResponse
     {
         $salida->update($request->validated());
-
+        $salidaController = new SalidaController();
+        $salidaController->store($salida->id);
         return Redirect::route('salidas.index')
             ->with('success', 'Salida updated successfully');
     }
