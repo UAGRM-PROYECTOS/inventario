@@ -17,11 +17,7 @@
         <x-text-input id="fecha_ingreso" name="fecha_ingreso" type="date" class="mt-1 block w-full" :value="old('fecha_ingreso', $ingreso?->fecha_ingreso)" autocomplete="fecha_ingreso" placeholder="Fecha Ingreso"/>
         <x-input-error class="mt-2" :messages="$errors->get('fecha_ingreso')"/>
     </div>
-    <div>
-        <x-input-label for="total" :value="__('Total')"/>
-        <x-text-input id="total" name="total" type="text" class="mt-1 block w-full" :value="old('total', $ingreso?->total)" autocomplete="total" placeholder="Total"/>
-        <x-input-error class="mt-2" :messages="$errors->get('total')"/>
-    </div>
+    
    
     <input type="hidden" name="proveedor_id" id="proveedor_id_hidden" :value="old('proveedor_id', $ingreso ? $ingreso->proveedor_id : '')">
 

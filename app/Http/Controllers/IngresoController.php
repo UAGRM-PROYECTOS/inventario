@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\IngresoRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
+date_default_timezone_set('America/La_Paz');
 class IngresoController extends Controller
 {
     /**
@@ -43,7 +43,6 @@ class IngresoController extends Controller
     public function store(IngresoRequest $request): RedirectResponse
     {
         Ingreso::create($request->validated());
-
         return Redirect::route('ingresos.index')
             ->with('success', 'Ingreso created successfully.');
     }

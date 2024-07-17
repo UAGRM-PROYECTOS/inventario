@@ -15,15 +15,15 @@
                         <i :class="isDarkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
                     </button>
                 </div>
-
+                @if(auth()->user()->can('administrar usuarios'))
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-
-
+                @endif
+                @if(auth()->user()->can('administrar productos'))
                 <!-- Settings Dropdown-Productos -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
@@ -67,9 +67,9 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
-
+                @endif
                 <!----------------------------------------------------------------->
-
+                @if(auth()->user()->can('administrar usuarios'))
                 <!-- Settings Dropdown-Clientes -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
                     <x-dropdown align="right" width="48">
@@ -102,7 +102,7 @@
                         </x-slot>
                     </x-dropdown>
                 </div>
-
+                @endif
                 <!----------------------------------------------------------------->
                 <!-- Settings Dropdown-Ordenes -->
                 <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -126,18 +126,11 @@
                         <x-slot name="content">
                             <x-dropdown-link :href="route('producto.catalogo')"
                                 :active="request()->routeIs('producto.catalogo')">
-                                {{ __('Mi Catalogo') }}
+                                {{ __('Catalogo') }}
                             </x-dropdown-link>
+                            @if(auth()->user()->can('administrar ordens'))
                             <x-dropdown-link :href="route('ordens.index')" :active="request()->routeIs('ordens.index')">
                                 {{ __('Ordenes') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('entregas.index')"
-                                :active="request()->routeIs('entregas.index')">
-                                {{ __('Entregas') }}
-                            </x-dropdown-link>
-                            <x-dropdown-link :href="route('ventas.index')"
-                                :active="request()->routeIs('ventas.index')">
-                                {{ __('Ventas') }}
                             </x-dropdown-link>
                             <x-dropdown-link :href="route('estados.index')"
                                 :active="request()->routeIs('estados.index')">
@@ -147,6 +140,7 @@
                                 :active="request()->routeIs('pagos.index')">
                                 {{ __('Pagos') }}
                             </x-dropdown-link>
+                            @endif
                         </x-slot>
                     </x-dropdown>
                 </div>
@@ -155,7 +149,13 @@
 
 
             </div>
+            <!-- Hamburger -->
+            <div class="me-4 sm:flex sm:items-center sm:ms-8">
+                <button onclick="window.location='{{ route('detalle-ordens.index') }}'" class="inline-flex items-center justify-center p-2 rounded-md bg-black hover:bg-grey-800 text-white font-bold py-2 px-4 rounded">
+                    <x-car></x-car>
+                </button>
 
+            </div>
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -193,13 +193,7 @@
                 </x-dropdown>
             </div>
 
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:">
-                <button onclick="window.location='{{ route('detalle-ordens.index') }}'" class="inline-flex items-center justify-center p-2 rounded-md bg-black hover:bg-grey-800 text-white font-bold py-2 px-4 rounded">
-                    <x-car></x-car>
-                </button>
 
-            </div>
         </div>
     </div>
 

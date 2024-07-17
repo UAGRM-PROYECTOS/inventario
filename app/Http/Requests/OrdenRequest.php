@@ -24,8 +24,7 @@ class OrdenRequest extends FormRequest
         return [
 			'cliente_id' => 'required',
 			'estado_id' => 'required',
-			'total' => 'required',
-
+            'fecha' => 'required',
         ];
     }
 }

@@ -12,10 +12,11 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\DetalleOrdenRequest;
 use App\Models\Estado;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+date_default_timezone_set('America/La_Paz');
 class EntregaController extends Controller
 {
     /**
@@ -37,7 +38,8 @@ class EntregaController extends Controller
     {
         $orden = new Orden();
         $estados = Estado::all();
-        return view('entrega.create', compact('orden','estados'));
+        $clientes = User::role('cliente')->get();
+        return view('entrega.create', compact('orden','estados','clientes'));
     }
 
     /**
@@ -128,7 +130,8 @@ class EntregaController extends Controller
     {
         $orden = Orden::find($id);
         $estados = Estado::all();
-        return view('entrega.edit', compact('orden','estados'));
+        $clientes = User::role('cliente')->get();
+        return view('entrega.edit', compact('orden','estados','clientes'));
     }
 
     /**

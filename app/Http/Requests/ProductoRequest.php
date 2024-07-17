@@ -27,6 +27,7 @@ class ProductoRequest extends FormRequest
 			'descripcion' => 'required|string',
 			'precio' => 'required|numeric',
 			'categoria_id' => 'required',
+            'unidad' =>'required|string',
         ];
     }
 }

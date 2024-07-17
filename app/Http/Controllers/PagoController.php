@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use GuzzleHttp\Client;
 use PhpParser\Node\Stmt\Return_;
-
+date_default_timezone_set('America/La_Paz');
 class PagoController extends Controller
 {
     /**

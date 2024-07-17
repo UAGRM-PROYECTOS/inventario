@@ -12,10 +12,12 @@ use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\DetalleOrdenRequest;
 use App\Models\Estado;
+use App\Models\Salida;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-
+date_default_timezone_set('America/La_Paz');
 class OrdenController extends Controller
 {
     /**
@@ -36,7 +38,8 @@ class OrdenController extends Controller
     {
         $orden = new Orden();
         $estados = Estado::all();
-        return view('orden.create', compact('orden','estados'));
+        $clientes = User::role('cliente')->get();
+        return view('orden.create', compact('orden','estados','clientes'));
     }
 
     /**
@@ -44,15 +47,16 @@ class OrdenController extends Controller
      */
     public function store(OrdenRequest $request): RedirectResponse
     {
-        //Orden::create($request->validated());
+        Orden::create($request->validated());
+        /*$cantidad = $request->input('cantidad');
         $id= Auth::id();
         Orden::create([
             'cliente_id' => $id,
-            'estado_id' => 9, 
+            'estado_id' => $request->, 
             'total' => 00.00, 
             'fecha' => Carbon::now(), // Current date and time
             
-        ]);
+        ]);*/
         return Redirect::route('ordens.index')
             ->with('success', 'Orden created successfully.');
     }
@@ -127,7 +131,8 @@ class OrdenController extends Controller
     {
         $orden = Orden::find($id);
         $estados = Estado::all();
-        return view('orden.edit', compact('orden','estados'));
+        $clientes = User::role('cliente')->get();
+        return view('orden.edit', compact('orden','estados','clientes'));
     }
 
     /**
@@ -136,7 +141,8 @@ class OrdenController extends Controller
     public function update(OrdenRequest $request, Orden $orden): RedirectResponse
     {
         $orden->update($request->validated());
-
+        $salidaController = new SalidaController();
+        $salidaController->store($orden->id);
         return Redirect::route('ordens.index')
             ->with('success', 'Orden updated successfully');
     }

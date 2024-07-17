@@ -6,9 +6,14 @@ use App\Models\Salida;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\SalidaRequest;
+use App\Models\DetalleOrden;
+use App\Models\Inventario;
+use App\Models\Orden;
+use App\Models\Producto;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
+date_default_timezone_set('America/La_Paz');
 class SalidaController extends Controller
 {
     /**
@@ -35,13 +40,57 @@ class SalidaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SalidaRequest $request): RedirectResponse
+    public function store($ordenId)
     {
-        Salida::create($request->validated());
 
-        return Redirect::route('salidas.index')
-            ->with('success', 'Salida created successfully.');
+        $orden = Orden::findOrFail($ordenId);
+        $detalleOrden = DetalleOrden::findOrFail($ordenId);
+        $producto = Producto::findOrFail($detalleOrden->producto_id);
+        DB::beginTransaction();
+        try {
+                Salida::create([
+                    'metodovaluacion_id' => 1, // 1 -> PEPS por defecto
+                    'orden_id' => $orden->id,
+                    'estado_id' => 8, // Ajusta el estado según tus constantes
+                    'fecha_salida' => now(),
+                ]);
+
+                    $inventario = Inventario::where('producto_id', $producto->id)
+                                            ->orderBy('fecha_ingreso', 'asc')
+                                            ->first();
+    
+                    if ($inventario) {
+                        $cantidadRestante = $inventario->cantidad - $detalleOrden->cantidad;
+    
+                        if ($cantidadRestante >= 0) {
+                            $inventario->update(['cantidad' => $cantidadRestante]);
+                        } else {
+                            // Manejar la lógica de cantidades parciales y eliminar registros de inventario vacíos
+                            // Actualizar el stock del producto
+                            $producto->stock -= $detalleOrden->cantidad;
+                        }
+                    }
+                
+                $orden->update([
+                    'estado_id' => 8, // Ajusta el estado según tus constantes
+                ]);
+                // Actualizar Inventario
+              /*  $inventario->update([
+                    'estado_id' => ESTADO_ENTREGADO,
+                ]);*/
+
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+            
+            throw $e;
+            }
+
+            return response()->json(['message' => 'Salidas registradas correctamente.']);
     }
+        
+    
+
 
     /**
      * Display the specified resource.

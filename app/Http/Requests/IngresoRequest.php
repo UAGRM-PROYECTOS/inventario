@@ -24,7 +24,6 @@ class IngresoRequest extends FormRequest
         return [
 			'proveedor_id' => 'required',
 			'metodovaluacion_id' => 'required',
-			'total' => 'required',
 			'fecha_ingreso' => 'required',
         ];
     }
