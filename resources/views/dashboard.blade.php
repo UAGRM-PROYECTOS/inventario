@@ -1,8 +1,151 @@
 <x-app-layout>
+    <style>
+        .italic-font {
+            font-style: italic;
+        }
+
+
+        .body-carousel {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wrapper-tecnicos {
+            max-width: 1100px;
+            width: 100%;
+            position: relative;
+        }
+
+        .wrapper-tecnicos i {
+            top: 50%;
+            height: 50px;
+            width: 50px;
+            cursor: pointer;
+            font-size: 1.25rem;
+            position: absolute;
+            text-align: center;
+            line-height: 50px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.23);
+            transform: translateY(-50%);
+            transition: transform 0.1s linear;
+        }
+
+        .wrapper-tecnicos i:active {
+            transform: translateY(-50%) scale(0.85);
+        }
+
+        .wrapper-tecnicos i:first-child {
+            left: -22px;
+        }
+
+        .wrapper-tecnicos i:last-child {
+            right: -22px;
+        }
+
+        .wrapper-tecnicos .carousel {
+            padding: 50px 0;
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: calc((100% / 3) - 12px);
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 16px;
+            border-radius: 8px;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel.no-transition {
+            scroll-behavior: auto;
+        }
+
+        .carousel.dragging {
+            scroll-snap-type: none;
+            scroll-behavior: auto;
+        }
+
+        .carousel.dragging .card {
+            cursor: grab;
+            user-select: none;
+        }
+
+        .carousel :where(.card, .img) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel .card {
+            scroll-snap-align: center;
+            height: 342px;
+            /* width: 70%; */
+            list-style: none;
+            background: #fff;
+            cursor: pointer;
+            padding-bottom: 15px;
+            flex-direction: column;
+            border-radius: 8px;
+        }
+
+        .carousel .card .img {
+            background: #04527b;
+            height: 148px;
+            width: 148px;
+            border-radius: 50%;
+        }
+
+        .card .img img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #fff;
+        }
+
+        .carousel .card h2 {
+            font-weight: 500;
+            font-size: 1.56rem;
+            margin: 30px 0 5px;
+        }
+
+        .carousel .card span {
+            color: #6A6D78;
+            font-size: 1.31rem;
+        }
+
+        .card h2,
+        .card span {
+            text-align: center;
+        }
+
+        @media screen and (max-width: 900px) {
+            .wrapper-tecnicos .carousel {
+                grid-auto-columns: calc((100% / 2) - 9px);
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .wrapper-tecnicos .carousel {
+                grid-auto-columns: 100%;
+            }
+        }
+    </style>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <div :class="{ 'border border-green-500': isChildMode, }">
+            <h2 :class="{ 'border border-green-500 text-red-500 bg-blue-500': isChildMode, 'border  text-blue-500 italic-font': isYoungMode, }"
+                class="font-semibold text-xl  leading-tight">
+                {{ __('Dashboard') }}
+            </h2>
+        </div>
+
     </x-slot>
 
  
