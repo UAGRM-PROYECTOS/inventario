@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
             CategoriasSeeder::class,
             EstadosSeeder::class,
             MetodoPagosSeeder::class,
-            ProveedorsSeeder::class
+            ProveedorsSeeder::class,
+            ProductoSeeder::class,
+
         ]);
     }
 }

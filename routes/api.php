@@ -17,5 +17,5 @@ Route::post('/logout', [AuthApiController::class, 'logout'])->middleware('auth:s
 
 Route::get('/consultarlo', [PagoController::class, 'AccessPagoFacilv2'])->middleware('auth:sanctum');
 
-Route::post('/urlcallback', [PagoController::class, 'urlCallback']);
-
+//callback
+Route::post('/callback', [PagoController::class, 'CallBack']);

@@ -11,12 +11,12 @@
                     </div>
                     <div>
                         <x-input-label for="tcCiNit" :value="__('CI/NIT')"/>
-                        <x-text-input id="tcCiNit" name="tcCiNit" type="text" class="mt-1 block w-full" :value="old('tcCiNit', $cliente->ci_nit)" placeholder="Número de CI/NIT"/>
+                        <x-text-input id="tcCiNit" name="tcCiNit" type="text" class="mt-1 block w-full" :value="old('tcCiNit', 0)" placeholder="Número de CI/NIT"/>
                         <x-input-error class="mt-2" :messages="$errors->get('tcCiNit')"/>
                     </div>
                     <div>
                         <x-input-label for="tnTelefono" :value="__('Celular')"/>
-                        <x-text-input id="tnTelefono" name="tnTelefono" type="text" class="mt-1 block w-full" :value="old('tnTelefono', $cliente->telefono)" placeholder="Número de Teléfono"/>
+                        <x-text-input id="tnTelefono" name="tnTelefono" type="text" class="mt-1 block w-full" :value="old('tnTelefono', 69490587)" placeholder="Número de Teléfono"/>
                         <x-input-error class="mt-2" :messages="$errors->get('tnTelefono')"/>
                     </div>
                     <div>
@@ -73,9 +73,12 @@
                             </div>
                         </div>
                     @endforeach
+                        
 
                     <div class="flex items-center gap-4">
-                        <x-primary-button>Consumir</x-primary-button>
+                        <x-primary-button>
+                            Consumir
+                        </x-primary-button>
                     </div>
                 </div>
             </div>

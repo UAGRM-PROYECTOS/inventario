@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Utilidades\LogsController;
 use App\Models\Pago;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -37,15 +38,15 @@ class PagoController extends Controller
         try {
 
             $orden = Orden::findOrFail($id);
-    
+
             $detalleOrdens = DetalleOrden::where('orden_id', $orden->id)->paginate();
             $iduser= Auth::id();
             $cliente = User::findOrFail($iduser);
- 
+
             return view('pago.create', compact('orden', 'detalleOrdens','cliente'));
-    
+
         } catch (ModelNotFoundException $e) {
-     
+
             return Redirect::back()->with('error', 'No se pudo encontrar la orden.');
         }
     }
@@ -111,11 +112,11 @@ class PagoController extends Controller
     /*ConsumirServicio***/
 
     public function RecolectarDatos(Request $request){
-       
+
         try {
-            
+
             $lcComerceID           = "d029fa3a95e174a19934857f535eb9427d967218a36ea014b70ad704bc6c8d1c";
-            $lnMoneda              = 2;
+            $lnMoneda              = 2; //bs
             $lnTelefono            = $request->tnTelefono;
             $lcNombreUsuario       = $request->tcRazonSocial;
             $lnCiNit               = $request->tcCiNit;
@@ -159,21 +160,41 @@ class PagoController extends Controller
                 'json' => $laBody
             ]);
 
+            // dd($loResponse, $loResponse->getBody()->getContents());
+
             $laResult = json_decode($loResponse->getBody()->getContents());
 
-    
-
             if ($request->tnTipoServicio == 1) {
-                
+
                 $laValues = explode(";", $laResult->values)[1]; //0
+                $laTransaccion = explode(";", $laResult->values)[0]; //1
+
+                // dd($laValues, $laTransaccion);
+
+                // 'orden_id', 'metodopagos_id', 'estado_id', 'nombre', 'monto_pago', 'fecha_pago'
+
+
+                $pago = new Pago();
+                $pago->orden_id = $request->orden_id;
+                $pago->metodopagos_id = 4;
+                $pago->estado_id = 1;
+                $pago->transaccion = $laTransaccion;
+                $pago->nombre = 'orden'.$request->orden_id;
+                $pago->monto_pago = $lnMontoClienteEmpresa;
+                $pago->save();
+
+                // dd($pago);
+
             //dd($laValues);
                 $laQrImage = "data:image/png;base64," . json_decode($laValues)->qrImage;
 
             //dd($laQrImage);
 
+                echo '<p class="text-center mb-4">' . $laTransaccion . '</p>';
                 echo '<img src="' . $laQrImage . '" alt="Imagen base64">';
             } elseif ($request->tnTipoServicio == 2) {
 
+                dd('pago 2 ');
                 $csrfToken = csrf_token();
 
                 echo '<h5 class="text-center mb-4">' . $laResult->message . '</h5>';
@@ -186,7 +207,7 @@ class PagoController extends Controller
                             function hacerSolicitudAjax(numero) {
                                 // Agrega el token CSRF al objeto de datos
                                 var data = { _token: "' . $csrfToken . '", tnTransaccion: numero };
-                                
+
                                 $.ajax({
                                     url: \'/consultar\',
                                     type: \'POST\',
@@ -210,7 +231,7 @@ class PagoController extends Controller
                     </script>';
 
 
-            
+
             }
         } catch (\Throwable $th) {
 
@@ -222,7 +243,7 @@ class PagoController extends Controller
     public function ConsultarEstado(Request $request)
     {
         $lnTransaccion = $request->tnTransaccion;
-        
+
         $loClientEstado = new Client();
 
         $lcUrlEstadoTransaccion = "https://serviciostigomoney.pagofacil.com.bo/api/servicio/consultartransaccion";
@@ -247,53 +268,60 @@ class PagoController extends Controller
         return response()->json(['message' => $texto]);
     }
     public function AccessPagoFacil(){
-        
-        $loUserAuth = curl_init(); 
-        curl_setopt_array($loUserAuth, 
-        [ 
-        CURLOPT_URL => "https://serviciostigomoney.pagofacil.com.bo/api/auth/login", 
-        CURLOPT_RETURNTRANSFER => true, 
-        CURLOPT_ENCODING => "", 
-        CURLOPT_MAXREDIRS => 10, 
-        CURLOPT_TIMEOUT => 30, 
-        CURLOPT_HTTP_VERSION => 
-        CURL_HTTP_VERSION_1_1, 
-        CURLOPT_CUSTOMREQUEST => "POST", 
-        CURLOPT_POSTFIELDS => "{ \n \"TokenService\": \" 51247fae280c20410824977b0781453df59fad5b23bf2a0d14e884482f91e09078dbe5966e0b970ba696ec4caf9aa5661802935f86717c481f1670e63f35d5041c31d7cc6124be82afedc4fe926b806755efe678917468e31593a5f427c79cdf016b686fca0cb58eb145cf524f62088b57c6987b3bb3f30c2082b640d7c52907 \", \n \"TokenSecret\": \" 9E7BC239DDC04F83B49FFDA5 \"\n}", 
-        CURLOPT_HTTPHEADER => [ "Accept: */*", "Content-Type: application/json" ], 
-        ]); 
-        
+
+        $loUserAuth = curl_init();
+        curl_setopt_array($loUserAuth,
+        [
+        CURLOPT_URL => "https://serviciostigomoney.pagofacil.com.bo/api/auth/login",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION =>
+        CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        CURLOPT_POSTFIELDS => "{ \n \"TokenService\": \" 51247fae280c20410824977b0781453df59fad5b23bf2a0d14e884482f91e09078dbe5966e0b970ba696ec4caf9aa5661802935f86717c481f1670e63f35d5041c31d7cc6124be82afedc4fe926b806755efe678917468e31593a5f427c79cdf016b686fca0cb58eb145cf524f62088b57c6987b3bb3f30c2082b640d7c52907 \", \n \"TokenSecret\": \" 9E7BC239DDC04F83B49FFDA5 \"\n}",
+        CURLOPT_HTTPHEADER => [ "Accept: */*", "Content-Type: application/json" ],
+        ]);
+
         $laTokenAuth = curl_exec($loUserAuth);  //toUserAuth
         $laError = curl_error($loUserAuth);  //toUserAuth
         curl_close($loUserAuth);  //toUserAuth
-        if ($laError) { 
-            echo "cURL Error #:" . $laError; 
+        if ($laError) {
+            echo "cURL Error #:" . $laError;
         } else { echo $laTokenAuth; }
-        
+
         return view('pago.index');
     }
 
     public function AccessPagoFacilv2(){
-        
-        $loClient = new Client(); 
-        $loUserAuth = $loClient->post( 'https://serviciostigomoney.pagofacil.com.bo/api/auth/login', [ 
+
+        $loClient = new Client();
+        $loUserAuth = $loClient->post( 'https://serviciostigomoney.pagofacil.com.bo/api/auth/login', [
             'headers' => [
-                'Accept' => 'application/json'], 
-                'json' => array( 
-                    'TokenService' => "51247fae280c20410824977b0781453df59fad5b23bf2a0d14e884482f91e09078dbe5966e0b970ba696ec4caf9aa5661802935f86717c481f1670e63f35d5041c31d7cc6124be82afedc4fe926b806755efe678917468e31593a5f427c79cdf016b686fca0cb58eb145cf524f62088b57c6987b3bb3f30c2082b640d7c52907", 
-                    'TokenSecret' => "9E7BC239DDC04F83B49FFDA5" ) 
-        ]); 
-        $laTokenAuth = json_decode($loUserAuth->getBody()->getContents()); 
+                'Accept' => 'application/json'],
+                'json' => array(
+                    'TokenService' => "51247fae280c20410824977b0781453df59fad5b23bf2a0d14e884482f91e09078dbe5966e0b970ba696ec4caf9aa5661802935f86717c481f1670e63f35d5041c31d7cc6124be82afedc4fe926b806755efe678917468e31593a5f427c79cdf016b686fca0cb58eb145cf524f62088b57c6987b3bb3f30c2082b640d7c52907",
+                    'TokenSecret' => "9E7BC239DDC04F83B49FFDA5" )
+        ]);
+        $laTokenAuth = json_decode($loUserAuth->getBody()->getContents());
         echo $laTokenAuth;
 
         //return $laTokenAuth;
     }
+    public function CallBack(Request $request){
+    // $estados = [
+    //     '1' => 'en_proceso',
+    //     '2' => 'pagado',
+    //     '3' => 'revertido',
+    //     '4' => 'anulado',
+    // ];
 
     public function UrlCallback()
     {
         // Campos del formulario del cliente
         $mapi = new Orden();
-    
+
         $Venta = $_POST["PedidoID"];
         preg_match('/(\d+)$/', $Venta, $matches);
         $numeroPedido = isset($matches[1]) ? $matches[1] : null;
@@ -303,14 +331,14 @@ class PagoController extends Controller
         $MetodoPago = $_POST["MetodoPago"];
         $Estado = $_POST["Estado"];
         $ingreso = true;
-    
+
         try {
             // Aquí verifico si tienen datos todos los parámetros
             if (isset($numeroPedido, $Fecha, $Hora, $MetodoPago, $Estado)) {
                 // Aquí verifico si existe la venta
                 // El Mapi es un modelo que verifica si existe esa venta en la base de datos
                 $laVentaobtenida = $mapi->obtenerventa($numeroPedido);
-    
+
                 if (!$laVentaobtenida) {
                     $arreglo = [
                         "error" => 1,
@@ -320,10 +348,10 @@ class PagoController extends Controller
                     ];
                     $ingreso = false;
                 }
-    
+
                 // Aquí verifico si existe el método de pago que se mandó
                 $metodopagoobtenido = $mapi->verificarmetodopago($MetodoPago);
-    
+
                 if (!$metodopagoobtenido) {
                     $arreglo = [
                         'error' => 1,
@@ -333,13 +361,13 @@ class PagoController extends Controller
                     ];
                     $ingreso = false;
                 }
-    
+
                 // Si la variable $ingreso es true, significa que están bien los parámetros y puede realizar la consulta
                 if ($ingreso) {
                     // Aquí llama al modelo Mapi y le manda los datos para cambiar el estado del pedido o venta
                     // Método pagarventa actualiza los datos del ESTADO de esa venta o pedido en la base de datos
                     $result = $mapi->pagarventa($numeroPedido, $nuevafecha, $metodopagoobtenido, $Estado);
-    
+
                     if ($result) {
                         // Se guardó con éxito
                         $arreglo = [
@@ -374,10 +402,42 @@ class PagoController extends Controller
                 'values' => false
             ];
         }
-    
+
         echo json_encode($arreglo);
     }
-    
 
 
+
+
+    // se actualizara el estado de la venta
+    // $loVenta = Venta::where('nota_venta', $request->PedidoID)->first();
+    // $loVenta->estado_pago = $estados[$request->Estado];
+    // $loVenta->hora_pago_confirmado = $request->Fecha;
+    // $loVenta->save();
+
+    // realizar factura
+    // if ($loVenta->facturar == '1') {
+    //     $requestFactura = new Request();
+    //     $requestFactura->merge([
+    //         'tnNotaVenta' => $loVenta->nota_venta,
+    //     ]);
+    //     // $requestFactura = response()->json([
+    //     //     'tnNotaVenta' => $loVenta->id,
+    //     // ]);
+    //     $response = ConsumirServicioController::RealizarFacturacion($requestFactura);
+    // }
+
+    LogsController::guardarLog(true, "CallBack", $request->all());
+
+    // $loPaquete = new  mPaquetePagoFacil(0, 1, "Success", true)
+
+    $loPaquete = [
+        'error' => 0,
+        'status' => 1,
+        'message' => 'Success',
+        'values' => true
+    ];
+    return response()->json($loPaquete);
+
+    }
 }

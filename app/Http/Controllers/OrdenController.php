@@ -25,6 +25,7 @@ class OrdenController extends Controller
      */
     public function index(Request $request): View
     {
+
         $ordens = Orden::where('estado_id', 5)->paginate(10);
 
         return view('orden.index', compact('ordens'))
@@ -52,10 +53,10 @@ class OrdenController extends Controller
         $id= Auth::id();
         Orden::create([
             'cliente_id' => $id,
-            'estado_id' => $request->, 
-            'total' => 00.00, 
+            'estado_id' => $request->,
+            'total' => 00.00,
             'fecha' => Carbon::now(), // Current date and time
-            
+
         ]);*/
         return Redirect::route('ordens.index')
             ->with('success', 'Orden created successfully.');
@@ -66,31 +67,34 @@ class OrdenController extends Controller
      */
     public function show($id): View
     {
+
+
         $orden = Orden::find($id);
         $detalleOrdens  = DetalleOrden::where('orden_id', $id)->paginate(10);
         return view('orden.show', compact('orden','detalleOrdens'));
     }
     public function ordenPedido($id): View
     {
+      
         try {
 
             $orden = Orden::findOrFail($id);
-    
+
             // Cambiar el estado de la orden
             $orden->estado_id = 5; // Estado que indica que el pedido ha sido realizado
             $orden->save();
-    
+
 
             $detalleOrdens = DetalleOrden::where('orden_id', $orden->id)->paginate();
 
             $pedidoRealizado='Pedido Realizao con exito';
             $iduser= Auth::id();
             $cliente = User::findOrFail($iduser);
- 
+
             return view('pago.create', compact('orden', 'detalleOrdens','cliente', 'pedidoRealizado'));
-    
+
         } catch (ModelNotFoundException $e) {
-     
+
             return Redirect::back()->with('error', 'No se pudo encontrar la orden.');
         }
     }
@@ -102,10 +106,10 @@ class OrdenController extends Controller
         $precio = $request->input('precio');
         $idProducto = $request->input('idProducto');
         $ordenId = $request->input('orden');
-    
+
         // Validar y obtener la orden actual
         $orden = Orden::findOrFail($ordenId);
-    
+
         // Crear un nuevo detalle de orden
         $detalleOrden = new DetalleOrden();
         $detalleOrden->orden_id = $orden->id;
@@ -114,14 +118,14 @@ class OrdenController extends Controller
         $detalleOrden->precio_unitario = $precio;
         // Calcular el precio total, si es necesario
         $detalleOrden->precio_total = $cantidad * $precio; // Ejemplo básico, ajusta según tu lógica
-    
+
         // Guardar el detalle de orden
         $detalleOrden->save();
-    
+
         // Actualizar el total de la orden
         $orden->total += $detalleOrden->precio_total;
         $orden->save();
-    
+
         return Redirect::route('producto.catalogo', $orden->id)->with('success', 'Producto agregado correctamente a la orden.');
     }
 

@@ -11,7 +11,7 @@
                 <div class="w-full">
                     <div class="sm:flex sm:items-center">
                         <div class="sm:flex-auto">
-                            <h1 class="text-base font-semibold leading-6 text-gray-900">{{ __('Create') }} Pago</h1>
+                            <h1 class="text-base font-semibold leading-6 text-gray-900"> Orden:{{ $orden->id }} </h1>
                             <h3>PagoFacil QR y Tigo Money</h3>
                             <p class="mt-2 text-sm text-gray-700">Add a new {{ __('Pago') }}.</p>
                         </div>
@@ -22,10 +22,11 @@
 
                     <div class="flow-root">
                         <div class="mt-8 overflow-x-auto">
-         
+
                                 <form method="POST" action="{{ route('pago.consumirservicio') }}"  role="form" enctype="multipart/form-data " target="QrImage">
                                     @csrf
 
+                                    <input type="hidden" name="orden_id" value="{{ $orden->id }}">
                                     @include('pago.form')
                                 </form>
                             </div>

@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Pago extends Model
 {
-    
+
     protected $perPage = 20;
 
     /**
@@ -33,7 +33,7 @@ class Pago extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['orden_id', 'metodopagos_id', 'estado_id', 'nombre', 'monto_pago', 'fecha_pago'];
+    protected $fillable = ['orden_id', 'metodopagos_id', 'estado_id', 'nombre', 'monto_pago', 'fecha_pago','transaccion'];
 
 
     /**
@@ -43,7 +43,7 @@ class Pago extends Model
     {
         return $this->belongsTo(\App\Models\Estado::class, 'estado_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -51,7 +51,7 @@ class Pago extends Model
     {
         return $this->belongsTo(\App\Models\MetodoPago::class, 'metodopagos_id', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -59,5 +59,5 @@ class Pago extends Model
     {
         return $this->belongsTo(\App\Models\Orden::class, 'orden_id', 'id');
     }
-    
+
 }

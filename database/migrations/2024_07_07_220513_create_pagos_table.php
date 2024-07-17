@@ -17,8 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('metodopagos_id');
             $table->unsignedBigInteger('estado_id');
             $table->string('nombre');
+            $table->string('transaccion');
             $table->double('monto_pago')->default(00.00);
-            $table->timestamp('fecha_pago');
+            $table->timestamp('fecha_pago')->nullable();
             $table->foreign('orden_id')->references('id')->on('ordens')->onDelete('cascade');
             $table->foreign('metodopagos_id')->references('id')->on('metodo_pagos')->onDelete('cascade');
             $table->foreign('estado_id')->references('id')->on('estados')->onDelete('cascade');
