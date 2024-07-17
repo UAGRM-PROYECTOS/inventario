@@ -52,7 +52,7 @@ class SalidaController extends Controller
                 Salida::create([
                     'metodovaluacion_id' => 1, // 1 -> PEPS por defecto
                     'orden_id' => $orden->id,
-                    'estado_id' => 7, // Ajusta el estado según tus constantes
+                    'estado_id' => 8, // Ajusta el estado según tus constantes
                     'fecha_salida' => now(),
                 ]);
 

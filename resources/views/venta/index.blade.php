@@ -46,13 +46,9 @@
 										<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ $orden->fecha }}</td>
 
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900">
-                                                <form action="{{ route('ventas.destroy', $orden->id) }}" method="POST">
+                                             
                                                     <a href="{{ route('ventas.show', $orden->id) }}" class="text-gray-600 font-bold hover:text-gray-900 mr-2">{{ __('Show') }}</a>
-                                                    <a href="{{ route('ventas.edit', $orden->id) }}" class="text-indigo-600 font-bold hover:text-indigo-900  mr-2">{{ __('Edit') }}</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <a href="{{ route('ventas.destroy', $orden->id) }}" class="text-red-600 font-bold hover:text-red-900" onclick="event.preventDefault(); confirm('Are you sure to delete?') ? this.closest('form').submit() : false;">{{ __('Delete') }}</a>
-                                                </form>
+                                             
                                             </td>
                                         </tr>
                                     @endforeach

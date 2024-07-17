@@ -9,6 +9,7 @@ use App\Models\DetalleOrden;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductoRequest;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
@@ -30,18 +31,28 @@ class ProductoController extends Controller
     {
         $productos = Producto::paginate(9);
         $categorias = Categoria::get();
+        $detallesPedidos = DetalleOrden::get();
         if (auth()->user()) {
             $pedidos = Orden::where('cliente_id', auth()->user()->id);
             $pedidos = $pedidos->where('estado_id', 8)->first();
-            $detallesPedidos = DetalleOrden::get();
+            
 
             $orden = Orden::where('cliente_id', Auth::user()->id)
             ->where('estado_id', 9) // Assuming '1' is the ID for active orders
             ->latest('fecha') // Assuming 'fecha' is your date field
             ->first();
+
             return view('producto.catalogo', compact('productos', 'categorias', 'orden', 'detallesPedidos'));
         }
-        return view('producto.catalogo', compact('productos', 'categorias'));
+        $orden =  Orden::create([
+            'cliente_id' => Auth::user()->id,
+            'estado_id' => 9, 
+            'total' => 00.00, 
+            'fecha' => Carbon::now(), // Current date and time
+            
+        ]);
+        dd($orden);
+        return view('producto.catalogo', compact('productos', 'categorias', 'orden', 'detallesPedidos'));
     }
 
     /**

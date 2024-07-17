@@ -143,10 +143,12 @@ class OrdenController extends Controller
     /**
      * Update the specified resource in storage.
      */
+    
     public function update(OrdenRequest $request, Orden $orden): RedirectResponse
     {
         $orden->update($request->validated());
         $salidaController = new SalidaController();
+       
         $salidaController->store($orden->id);
         return Redirect::route('ordens.index')
             ->with('success', 'Orden updated successfully');
