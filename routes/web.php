@@ -67,7 +67,7 @@ Route::middleware(['auth','role:admin','visits'])->group(function () {
 
 });
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','visits'])->group(function () {
     Route::get('/catalogo', [ProductoController::class, 'CatalogoView'])->name('producto.catalogo') ;
     Route::resource('detalle-ordens', DetalleOrdenController::class);
     Route::get('/addDetalleOrden', [OrdenController::class, 'addDetalleOrden'])->name('ordens.addDetalleOrden');

@@ -9,6 +9,7 @@ use App\Models\DetalleOrden;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductoRequest;
+use App\Models\Visit;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -23,8 +24,8 @@ class ProductoController extends Controller
     public function index(Request $request): View
     {
         $productos = Producto::paginate();
-
-        return view('producto.index', compact('productos'))
+        $visits = Visit::where(['page_name' => 'productos.index'])->first();
+        return view('producto.index', compact('productos','visits'))
             ->with('i', ($request->input('page', 1) - 1) * $productos->perPage());
     }
     public function CatalogoView()
@@ -32,6 +33,7 @@ class ProductoController extends Controller
         $productos = Producto::paginate(9);
         $categorias = Categoria::get();
         $detallesPedidos = DetalleOrden::get();
+        $visits = Visit::where(['page_name' => 'producto.catalogo'])->first();
         if (auth()->user()) {
             $pedidos = Orden::where('cliente_id', auth()->user()->id);
             $pedidos = $pedidos->where('estado_id', 8)->first();
@@ -42,7 +44,7 @@ class ProductoController extends Controller
             ->latest('fecha') // Assuming 'fecha' is your date field
             ->first();
 
-            return view('producto.catalogo', compact('productos', 'categorias', 'orden', 'detallesPedidos'));
+            return view('producto.catalogo', compact('productos', 'categorias', 'orden', 'detallesPedidos','visits'));
         }
         $orden =  Orden::create([
             'cliente_id' => Auth::user()->id,
@@ -52,7 +54,7 @@ class ProductoController extends Controller
             
         ]);
         dd($orden);
-        return view('producto.catalogo', compact('productos', 'categorias', 'orden', 'detallesPedidos'));
+        return view('producto.catalogo', compact('productos', 'categorias', 'orden', 'detallesPedidos','visits'));
     }
 
     /**
