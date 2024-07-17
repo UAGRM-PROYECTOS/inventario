@@ -147,9 +147,45 @@
         </div>
 
     </x-slot>
+    <section :class="{ 'hidden': !isYoungMode }" id="equipo">
 
- 
-                    <div class="py-12">
+<div class="body-carousel">
+
+    <div class="wrapper-tecnicos">
+        <i id="left" class="fa-solid fa-angle-left"></i>
+        <ul class="carousel">
+            <li class="card">
+                <img src="{{ asset('img/img1.jpeg') }}" alt="">
+            </li>
+            <li class="card">
+                <img src="{{ asset('img/img2.jpeg') }}" alt="">
+            </li>
+            <li class="card">
+                <img src="{{ asset('img/img3.jpeg') }}" alt="">
+            </li>
+            <li class="card">
+                <img src="{{ asset('img/img4.jpeg') }}" alt="">
+            </li>
+            <li class="card">
+                <img src="{{ asset('img/img5.jpg') }}" alt="">
+            </li>
+            <li class="card">
+                <img src="{{ asset('img/img6.jpg') }}" alt="">
+            </li>
+
+
+            {{-- <li class="card">
+                <div class="img"><img src="img/img-1.jpg" alt="img" draggable="false"></div>
+                <h2>Sra. Karen Garcia Escobar</h2>
+                <span>Secretaria - S.D.E.R</span>
+            </li> --}}
+        </ul>
+        <i id="right" class="fa-solid fa-angle-right"></i>
+    </div>
+
+</div>
+</section>
+<div class="py-12">
                             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                                     <div class="p-6 lg:p-8 bg-white border-b border-gray-200">
@@ -217,6 +253,8 @@
                                 </div>
                             </div>
                         </div>
+ 
+                   
                         <x-visits> {{$visits->cant}} </x-visits>
                         @section('scripts')
                         {!! $user_month_chart->renderChartJsLibrary() !!}
