@@ -54,11 +54,11 @@ Route::middleware(['auth','role:admin','visits'])->group(function () {
     Route::resource('salidas', SalidaController::class);
     Route::resource('inventarios', InventarioController::class);
     Route::resource('pagos', PagoController::class);
-    Route::get('/orden-pago/{id}', [PagoController::class, 'ordenPago'])->name('orden.pago');
+   
     
 
     #PAGOFACIL
-    Route::post('/consumirServicio', [PagoController::class, 'RecolectarDatos'])->name('pago.consumirservicio');
+
     Route::post('/consultar', [PagoController::class, 'ConsultarEstado']);
 
     #Route::get('/consultarlo', [PagoController::class, 'AccessPagoFacil']);
@@ -72,6 +72,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('detalle-ordens', DetalleOrdenController::class);
     Route::get('/addDetalleOrden', [OrdenController::class, 'addDetalleOrden'])->name('ordens.addDetalleOrden');
     Route::get('/orden-pedido/{id}', [OrdenController::class, 'ordenPedido'])->name('orden.pedido');
+    Route::get('/orden-pago/{id}', [PagoController::class, 'ordenPago'])->name('orden.pago');
+    Route::post('/consumirServicio', [PagoController::class, 'RecolectarDatos'])->name('pago.consumirservicio');
 });
 
 

@@ -185,6 +185,10 @@ class PagoController extends Controller
 
                 // dd($pago);
 
+                $orden = new OrdenController();
+                $orden->ordenPedido($pago->orden_id);
+                // actualizar estado de la orden
+
             //dd($laValues);
                 $laQrImage = "data:image/png;base64," . json_decode($laValues)->qrImage;
 
