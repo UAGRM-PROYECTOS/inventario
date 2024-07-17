@@ -43,7 +43,7 @@ class PagoController extends Controller
             $iduser= Auth::id();
             $cliente = User::findOrFail($iduser);
 
-            return view('pago.create', compact('orden', 'detalleOrdens','cliente'));
+            return view('orden.index', compact('orden', 'detalleOrdens','cliente'));
 
         } catch (ModelNotFoundException $e) {
 
