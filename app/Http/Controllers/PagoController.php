@@ -37,13 +37,13 @@ class PagoController extends Controller
     {
         try {
 
-            $orden = Orden::findOrFail($id);
+            $ordens = Orden::findOrFail($id);
 
-            $detalleOrdens = DetalleOrden::where('orden_id', $orden->id)->paginate();
+            $detalleOrdens = DetalleOrden::where('orden_id', $ordens->id)->paginate();
             $iduser= Auth::id();
             $cliente = User::findOrFail($iduser);
 
-            return view('orden.index', compact('orden', 'detalleOrdens','cliente'));
+            return view('orden.index', compact('ordens', 'detalleOrdens','cliente'));
 
         } catch (ModelNotFoundException $e) {
 
